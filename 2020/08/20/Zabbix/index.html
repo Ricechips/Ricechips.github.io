@@ -446,7 +446,7 @@ echo <span class="token string">"浏览器访问 http://`hostname -I|awk '&amp;#
 <p>若80端口被占用 修改/etc/httpd/conf/httpd.conf<br><br>注意SElinux和firewalld关闭状态<br><br><em>yum install zabbix-agent -y</em><br><br><em>systemctl start zabbix-agent</em>监控服务端<br><img src="https://raw.githubusercontent.com/Ricechips/Zabbix/master/PrtScn/2020-05-26%2014-10-39%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt="zabbix"> <br><br>zabbix is not running报错是因为selinux没关闭<br><br>setenforce 0或/etc/selinux/config修改SELINUX=”disabled”</p>
 </blockquote>
 <h2 id="被监控端Win17"><a href="#被监控端Win17" class="headerlink" title="被监控端Win17"></a>被监控端Win17</h2><blockquote>
-<p>打通虚拟机和主机的网络:route add 192.168.106.0 mask 255.255.255.0 192.168.106.1<br><br>官网<a target="_blank" rel="noopener" href="https://www.zabbix.com/cn/download_agents">跳转</a>下载相应版本Zip<br><br>修改conf文本</p>
+<p>打通虚拟机和主机的网络:route add 192.168.106.0 mask 255.255.255.0 192.168.106.1<br><br>官网<a target="_blank" rel="noopener" href="https://www.zabbix.com/cn/download_agents">跳转</a> 下载相应版本Zip <br><br>修改conf文本</p>
 </blockquote>
 <pre class=" language-c"><code class="language-c">LogFile<span class="token operator">=</span>D<span class="token punctuation">:</span>\zabbix_agentd<span class="token punctuation">.</span>log
 Server<span class="token operator">=</span><span class="token number">192.168</span><span class="token punctuation">.</span><span class="token number">106.201</span>                                            <span class="token comment" spellcheck="true">//zabbix服务端的ip地址</span>
@@ -458,7 +458,7 @@ D<span class="token punctuation">:</span>\zabbix\bin\zabbix_agentd<span class="t
 <p>关闭防火墙<br><br>在服务端测试连通性<em>zabbix_get -s 192.168.106.3 -p 10050 -k “system.cpu.load[all,avg1]</em><br><img src="https://raw.githubusercontent.com/Ricechips/Zabbix/master/PrtScn/2020-06-01%2014-03-00%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt="zabbix"></p>
 </blockquote>
 <h2 id="被监控端Centos"><a href="#被监控端Centos" class="headerlink" title="被监控端Centos"></a>被监控端Centos</h2><blockquote>
-<p><em>rpm -ivh <a target="_blank" rel="noopener" href="http://repo.zabbix.com/zabbix/3.0/rhel/7/x86_64/zabbix-release-3.0-1.el7.noarch.rpm">http://repo.zabbix.com/zabbix/3.0/rhel/7/x86_64/zabbix-release-3.0-1.el7.noarch.rpm</a></em><br><br><em>yum install zabbix-agent</em><br><br><em>vi /etc/zabbix/zabbix_agentd.conf</em>修改<br></p>
+<p><em>rpm -ivh <a target="_blank" rel="noopener" href="http://repo.zabbix.com/zabbix/3.0/rhel/7/x86_64/zabbix-release-3.0-1.el7.noarch.rpm">http://repo.zabbix.com/zabbix/3.0/rhel/7/x86_64/zabbix-release-3.0-1.el7.noarch.rpm</a></em> <br><br><em>yum install zabbix-agent</em><br><br><em>vi /etc/zabbix/zabbix_agentd.conf</em>修改<br></p>
 </blockquote>
 <pre class=" language-c"><code class="language-c">Server<span class="token operator">=</span><span class="token number">192.168</span><span class="token punctuation">.</span><span class="token number">106.201</span>     <span class="token comment" spellcheck="true">//安装zabbix服务端的机器的IP</span>
 ServerActive<span class="token operator">=</span><span class="token number">192.168</span><span class="token punctuation">.</span><span class="token number">106.201</span> <span class="token comment" spellcheck="true">//安装zabbix服务端的机器的IP</span>

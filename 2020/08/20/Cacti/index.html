@@ -398,7 +398,7 @@
 <p><code>服务端:Centos7</code>  <code>被监控端:win7</code></p>
 </blockquote>
 <h2 id="Cacti服务端搭建"><a href="#Cacti服务端搭建" class="headerlink" title="Cacti服务端搭建"></a>Cacti服务端搭建</h2><blockquote>
-<p>安装Mysql<br><br><em>rpm -Uvh <a target="_blank" rel="noopener" href="http://repo.mysql.com/mysql57-community-release-el7.rpm">http://repo.mysql.com/mysql57-community-release-el7.rpm</a></em><br><br><em>yum clean all &amp;&amp; yum makecache</em><br><br>安装LAMP<br><br><em>yum install httpd mysql-server php php-gd php-mysql -y</em><br><br>安装RRDtool<br><br><em>yum install rrdtool rrdtool-devel.x86_64 rrdtool-perl.x86_64 -y</em><br><br>安装SNMP<br><br><em>yum install net-snmp-utils -y</em><br><br>部署LAMP<br></p>
+<p>安装Mysql<br><br><em>rpm -Uvh <a target="_blank" rel="noopener" href="http://repo.mysql.com/mysql57-community-release-el7.rpm">http://repo.mysql.com/mysql57-community-release-el7.rpm</a></em> <br><br><em>yum clean all &amp;&amp; yum makecache</em><br><br>安装LAMP<br><br><em>yum install httpd mysql-server php php-gd php-mysql -y</em><br><br>安装RRDtool<br><br><em>yum install rrdtool rrdtool-devel.x86_64 rrdtool-perl.x86_64 -y</em><br><br>安装SNMP<br><br><em>yum install net-snmp-utils -y</em><br><br>部署LAMP<br></p>
 </blockquote>
 <pre class=" language-c"><code class="language-c"><span class="token operator">*</span><span class="token operator">/</span>usr<span class="token operator">/</span>bin<span class="token operator">/</span>mysql –initialize –basedir<span class="token operator">=</span><span class="token operator">/</span>usr<span class="token operator">/</span>share<span class="token operator">/</span>mysql –datadir<span class="token operator">=</span><span class="token operator">/</span>var<span class="token operator">/</span>lib<span class="token operator">/</span>mysql<span class="token operator">/</span>data<span class="token operator">/</span> 初始化Mysql<span class="token operator">*</span>
 systemctl start mysqld
@@ -533,7 +533,7 @@ cp <span class="token operator">-</span>u <span class="token operator">-</span>R
 <p>EwoMail官方文档<a target="_blank" rel="noopener" href="http://doc.ewomail.com/docs/ewomail/install">跳转</a> <br><br>邮件smtp配置及效果图<br><br><img src="https://raw.githubusercontent.com/Ricechips/Cacti/master/PrtScn/Screenshot%20from%202020-06-18%2010-05-46.png" alt="cacti"><br><img src="https://raw.githubusercontent.com/Ricechips/Cacti/master/PrtScn/2020-06-18%2009-58-11%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt="cacti"></p>
 </blockquote>
 <h2 id="线上的离线环境centos系统安装snmp服务"><a href="#线上的离线环境centos系统安装snmp服务" class="headerlink" title="线上的离线环境centos系统安装snmp服务"></a>线上的离线环境centos系统安装snmp服务</h2><blockquote>
-<p>下载rpm包，根据依赖一个一个安装<br><br>包的下载地址:<a target="_blank" rel="noopener" href="https://rpmfind.net/">https://rpmfind.net/</a><br><br>示例:<br><img src="https://raw.githubusercontent.com/Ricechips/Cacti/master/PrtScn/%E6%8D%95%E8%8E%B7.PNG" alt="cacti"></p>
+<p>下载rpm包，根据依赖一个一个安装<br><br>包的下载地址:<a target="_blank" rel="noopener" href="https://rpmfind.net/">https://rpmfind.net/</a> <br><br>示例:<br><img src="https://raw.githubusercontent.com/Ricechips/Cacti/master/PrtScn/%E6%8D%95%E8%8E%B7.PNG" alt="cacti"></p>
 </blockquote>
 <h2 id="轮询器优化cmd-gt-spine"><a href="#轮询器优化cmd-gt-spine" class="headerlink" title="轮询器优化cmd-&gt;spine"></a>轮询器优化cmd-&gt;spine</h2><p>官网下载最新包 源码编译时报错:c compiler cannot create executables<br><br>一开始以为是gcc没装好，remove后重装还是报错，找了十来篇文章无果，突然看到一篇</p>
 <pre class=" language-c"><code class="language-c">查找原因，查看config<span class="token punctuation">.</span>log 日志
