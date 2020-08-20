@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Centos7-kvm, linux|shell|python|kvm">
+    <meta name="keywords" content="python, linux|shell|python|kvm">
     <meta name="description" content="一个正在努力成长的linux运维">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Centos7-kvm | 2020努力的胡建人</title>
+    <title>python | 2020努力的胡建人</title>
     <link rel="icon" type="image/jpeg" href="/favicon.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -241,12 +241,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Centos7-kvm</h1>
+                    <h1 class="description center-align post-title">python</h1>
                 </div>
             </div>
         </div>
@@ -391,45 +391,29 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="工作要求，搞了一个礼拜，结合了各大blog文章、各大网站教程，终于把透传完成了，现在总结一下流程8"><a href="#工作要求，搞了一个礼拜，结合了各大blog文章、各大网站教程，终于把透传完成了，现在总结一下流程8" class="headerlink" title="工作要求，搞了一个礼拜，结合了各大blog文章、各大网站教程，终于把透传完成了，现在总结一下流程8."></a>工作要求，搞了一个礼拜，结合了各大blog文章、各大网站教程，终于把透传完成了，现在总结一下流程8.</h1><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><blockquote>
-<p><code>host机:centos7.7</code> kvm虚拟化 <code>虚机：win10</code>  </p>
-</blockquote>
-<h2 id="u盘安装centos"><a href="#u盘安装centos" class="headerlink" title="u盘安装centos"></a>u盘安装centos</h2><blockquote>
-<p>bios设置u盘启动<br>进入安装界面按TAB修改路径<br>将vmlinuz initrd … quiet 改为 vmlinuz initrd=initrd.img linux dd quiet 找到u盘设备名 (我的是sda1)<br>ctrl+alt+del重启 再次配置 vmlinuz … stage2=hd:/dev/sda1 quiet<br>后面正常安装  </p>
-</blockquote>
-<h2 id="kvm安装"><a href="#kvm安装" class="headerlink" title="kvm安装"></a>kvm安装</h2><blockquote>
-<p><em>yum install -y qemu-kvm libvirt virt-install bridge-utils</em> （依次是 用户态 命令行 工具 桥接设备)<br>查询kvm模块 <em>lsmod | grep kvm</em><br>启动libvirtd<br> <em>systemctl enable libvirtd <br>  systemctl start libvirtd <br>   systemctl status libvirtd</em><br>安装virt-manager <br><em>yum -y install virt-manager</em> (这个是虚拟机图形化管理界面)  </p>
-</blockquote>
-<h2 id="显卡透传"><a href="#显卡透传" class="headerlink" title="显卡透传"></a>显卡透传</h2><blockquote>
-<ul>
-<li>配置iommu <em>vim /etc/default/grub</em> 将<em>intel_iommu=on</em>放在<em>GRUB_CMDLINE_LINUX=“ ”</em>里面<br>更新grub <em>grub2-mkconfig -o /boot/grub2/grub.cfg</em>  之后<code>reboot</code><br>用<em>dmesg | grep -e DMAR -e IOMMU</em>看是否有IOMMU enabled输出  </li>
-<li>lspci 找到要透传的显卡，记下ID 如：83:00.0 AMD 83:00.1 Audio  </li>
-</ul>
-<p><em>lspci -vv -s 83:00.0 | grep driver</em>可查其驱动<br>查询到之后将驱动禁用 <em>vim /etc/modprobe.d/blacklist.conf</em> <code>blacklist radeon</code> <code>blacklist snd_hda_intel</code> </p>
-<ul>
-<li>不知道原因但是必须做的一步<br>vim /usr/lib/modprobe.d/dist-blacklist.conf 去掉禁用blacklist radeonfb 加上一行options nouveau modeset=0<br>备份原来的 initramfs nouveau image镜像 mv /boot/initramfs-$(uname -r).img /boot/initramfs-$(uname -r)-nouveau.img<br>创建新的 initramfs image镜像 dracut /boot/initramfs-$(uname -r).img $(uname -r)   </li>
-<li>加载vfio驱动<br> <em>modprobe vfio</em><br> <em>modprobe vfio-pci</em>  </li>
-<li>从<code>host机</code>卸载A卡 <br><em>virsh nodedev-detach pci_0000_83_00_0</em> <br><em>virsh nodedev-detach pci_0000_83_00_1</em><br>此时再查询驱动，得到<em>kernel driver in use: vfio-pci</em></li>
-</ul>
-</blockquote>
-<h2 id="安装OVMF"><a href="#安装OVMF" class="headerlink" title="安装OVMF"></a>安装OVMF</h2><blockquote>
-<ul>
-<li><em>wget <a target="_blank" rel="noopener" href="http://www.kraxel.org/repos/firmware.repo">http://www.kraxel.org/repos/firmware.repo</a> -O /etc/yum.repos.d/firmware.repo</em>配置yum源  </li>
-</ul>
-<p><em>yum install edk2.git-ovmf-x64</em>  </p>
-<ul>
-<li>配置libvirtd<br> <em>vim /etc/libvirt/qemu.conf</em> <br><code>nvram = [ &quot;/usr/share/edk2.git/ovmf-x64/OVMF_CODE-pure-efi.fd:/usr/share/edk2.git/ovmf-x64/OVMF_VARS-pure-efi.fd&quot;, ]</code>  </li>
-<li>重启libvirtd <br><em>systemctl restart libvirtd</em></li>
-</ul>
-</blockquote>
-<h2 id="安装win10"><a href="#安装win10" class="headerlink" title="安装win10"></a>安装win10</h2><blockquote>
-<p>virt-manager 打开图形管理界面<br>在配置中以UEFI启动<br>CDROM添入win10.iso<br>这里的引导项有：<code>1.CDROM(win10.iso) 2.CDROM(virtio.iso) 3.VirtIO磁盘(100G)</code><br>加载硬盘时选择<code>加载驱动程序</code>，浏览本地文件即<code>virtio-win-0.1.1</code>目录下的<code>viostor\w10\amd64</code><br>添加PCI设备(83:00:0和83:00:1)<br>之后正常装系统<br>ps:virtio是对此win虚机进行优化，性能实测有质的提升 可在<a target="_blank" rel="noopener" href="https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/">此处</a>下载 对了,网卡也可以改成virtio,具体路径在<code>NetKVM\w10\amd64</code></p>
-</blockquote>
-<h2 id="usb透传"><a href="#usb透传" class="headerlink" title="usb透传"></a>usb透传</h2><blockquote>
-<p>lsusb查询项透传的usb设备<br>在manager上面直接添加(修改配置文件蛮麻烦的，图形化轻松搞定)</p>
-</blockquote>
-<h3 id="一些心得"><a href="#一些心得" class="headerlink" title="一些心得"></a>一些心得</h3><p>这东西做出来也算是磕破了头吧，查了不知道多少的资料，每一篇都有相似的操作，但又不尽相同，如果按某一篇en头做，基本是失败的，我的做法是结合每篇的精华操作，把流程搞清了，每一步做的意义是什么，明白了之后再具体实现其步骤，有针对性找操作流程，当然，同时不能忘记对硬件的考虑，如<code>硬盘接口脱落，内存条插了总内存反而变少了，主板太热了，无线鼠标会被金属板隔离传输导致卡顿.....</code>行吧，下个任务见。</p>
-<h3 id=""><a href="#" class="headerlink" title=""></a></h3><p>ps:Q:failed to set iommu for container: Operation not permitted<br><br>A:echo “1” &gt; /sys/module/vfio_iommu_type1/parameters/allow_unsafe_interrupts<br><br>virt-host-validate 测试环境<br><br><a target="_blank" rel="noopener" href="https://blog.acesheep.com/index.php/archives/720/">https://blog.acesheep.com/index.php/archives/720/</a> 教程</p>
+                <p>:hamburger:<a target="_blank" rel="noopener" href="https://www.webfx.com/tools/emoji-cheat-sheet/">表情网址</a></p>
+<h1 id="python3-8-pycharm2020-2-mysql8-0-21"><a href="#python3-8-pycharm2020-2-mysql8-0-21" class="headerlink" title="python3.8+pycharm2020.2+mysql8.0.21"></a>python3.8+pycharm2020.2+mysql8.0.21</h1><h2 id="python"><a href="#python" class="headerlink" title="python"></a>python</h2><p><a target="_blank" rel="noopener" href="https://www.python.org/downloads/windows/">https://www.python.org/downloads/windows/</a></p>
+<h2 id="pycharm"><a href="#pycharm" class="headerlink" title="pycharm"></a>pycharm</h2><p><a target="_blank" rel="noopener" href="https://www.jetbrains.com/pycharm/download/#section=windows">https://www.jetbrains.com/pycharm/download/#section=windows</a><br><br>Professional激活方法<br><br>Community版本没有内置database插件,并且最新版没有可用的插件</p>
+<h2 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h2><p><a target="_blank" rel="noopener" href="https://dev.mysql.com/downloads/">https://dev.mysql.com/downloads/</a><br><br>创建my.ini配置文件</p>
+<pre><code>[mysql]
+# 设置mysql客户端默认字符集
+default-character-set=utf8
+
+[mysqld]
+# 设置3306端口
+port = 3306
+# 设置mysql的安装目录
+basedir=C:\MySQL\mysql-8.0.15
+# 设置 mysql数据库的数据的存放目录，MySQL 8+ 不需要以下配置，系统自己生成即可，否则有可能报错
+# datadir=C:\\web\\sqldata
+# 允许最大连接数
+max_connections=20
+# 服务端使用的字符集默认为8比特编码的latin1字符集
+character-set-server=utf8
+# 创建新表时将使用的默认存储引擎
+default-storage-engine=INNODB</code></pre>
+<p>C:\Windows\system32&gt;cd C:\mysql\mysql-8.0.21-winx64\bin<br><br>.\mysqld –initialize –console<br><br>.\mysqld install<br><br>net start mysql<br><br>C:\mysql\mysql-8.0.21-winx64\bin&gt;mysql -u root -p<br><br>alter user user() identified by ‘ricechips’;</p>
+<h2 id="abaaba"><a href="#abaaba" class="headerlink" title="abaaba"></a>abaaba</h2><p><code>壁纸https://wallhaven.cc/</code><br><br><br>报错解决<br><br>Q:由于找不到msvcp140.dll无法继续执行代码<br><br>A:下载<a target="_blank" rel="noopener" href="https://www.microsoft.com/zh-cn/download/confirmation.aspx?id=48145">https://www.microsoft.com/zh-cn/download/confirmation.aspx?id=48145</a><br><br><br>Q:服务没有响应控制功能<br><br>A:C:\mysql\mysql-8.0.21-winx64\bin&gt;mysqld –console<br><br><br>Q:装scrapy,Microsoft Visual C++ 14.0 is required.<br><br>A:<a target="_blank" rel="noopener" href="https://visualstudio.microsoft.com/zh-hans/visual-cpp-build-tools/">https://visualstudio.microsoft.com/zh-hans/visual-cpp-build-tools/</a><br><br><br>Q:Cannot open include file: ‘basetsd.h’: No such file or directory<br><br>A:<a target="_blank" rel="noopener" href="https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk/">https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk/</a><br><br><br>Q:fatal error LNK1158: cannot run ‘rc.exe’<br><br>A:在环境变量path中添加C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64<br><br>将rc.exe和rcdll.dll从C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64复制到C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin<br><br><br><img src="https://github.com/Ricechips/-python-/blob/master/PrtScn/ea072ccfc8c0033798db2a6042732cb.png" alt="avatar"></p>
 
             </div>
             <hr/>
@@ -455,7 +439,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://ricechips.github.io/2020/08/20/Centos7-kvm/">http://ricechips.github.io/2020/08/20/Centos7-kvm/</a>
+                    <a href="http://ricechips.github.io/2020/08/20/python/">http://ricechips.github.io/2020/08/20/python/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -532,32 +516,32 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/08/20/Samba-AD/">
+                <a href="/2020/08/20/python/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="Samba-AD">
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="python">
                         
-                        <span class="card-title">Samba-AD</span>
+                        <span class="card-title">python</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Samba-AD域控
-环境搭建官方文档:依赖搭建步骤
-
-configure使报错:未找到GnuTLS(查询文档，明确要求要从外部获取)wget http://www.ring.gr.jp/pub/net/gnupg/gnutls/v3.6/
+                            :hamburger:表情网址
+python3.8+pycharm2020.2+mysql8.0.21pythonhttps://www.python.org/downloads/windows/
+pycharmhttps://www.je
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-08-20
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-20
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -566,6 +550,7 @@ configure使报错:未找到GnuTLS(查询文档，明确要求要从外部获取
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -576,25 +561,28 @@ configure使报错:未找到GnuTLS(查询文档，明确要求要从外部获取
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/08/19/wsl2/">
+                <a href="/2020/08/20/Centos7-7-minimal-kvm/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="article title">
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="Centos7.7-minimal-kvm">
                         
-                        <span class="card-title">article title</span>
+                        <span class="card-title">Centos7.7-minimal-kvm</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            wsl2windows terminal + wsl2 + kali + lolcat
+                            Centos的图形化界面确实容易崩溃，操作一快就直接卡死，行吧，只能放弃平易近人的桌面，完全用黑乎乎的命令行操作了。环境
+host机:centos7.7（minimal） kvm虚拟化 虚机：win7  
 
+u盘安装centos
+这一步跟我
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-19
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-20
                             </span>
                         <span class="publish-author">
                             

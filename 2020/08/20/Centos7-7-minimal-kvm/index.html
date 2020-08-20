@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Centos7-kvm, linux|shell|python|kvm">
+    <meta name="keywords" content="Centos7.7-minimal-kvm, linux|shell|python|kvm">
     <meta name="description" content="一个正在努力成长的linux运维">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Centos7-kvm | 2020努力的胡建人</title>
+    <title>Centos7.7-minimal-kvm | 2020努力的胡建人</title>
     <link rel="icon" type="image/jpeg" href="/favicon.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -241,12 +241,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Centos7-kvm</h1>
+                    <h1 class="description center-align post-title">Centos7.7-minimal-kvm</h1>
                 </div>
             </div>
         </div>
@@ -391,45 +391,63 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="工作要求，搞了一个礼拜，结合了各大blog文章、各大网站教程，终于把透传完成了，现在总结一下流程8"><a href="#工作要求，搞了一个礼拜，结合了各大blog文章、各大网站教程，终于把透传完成了，现在总结一下流程8" class="headerlink" title="工作要求，搞了一个礼拜，结合了各大blog文章、各大网站教程，终于把透传完成了，现在总结一下流程8."></a>工作要求，搞了一个礼拜，结合了各大blog文章、各大网站教程，终于把透传完成了，现在总结一下流程8.</h1><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><blockquote>
-<p><code>host机:centos7.7</code> kvm虚拟化 <code>虚机：win10</code>  </p>
+                <h1 id="Centos的图形化界面确实容易崩溃，操作一快就直接卡死，行吧，只能放弃平易近人的桌面，完全用黑乎乎的命令行操作了。"><a href="#Centos的图形化界面确实容易崩溃，操作一快就直接卡死，行吧，只能放弃平易近人的桌面，完全用黑乎乎的命令行操作了。" class="headerlink" title="Centos的图形化界面确实容易崩溃，操作一快就直接卡死，行吧，只能放弃平易近人的桌面，完全用黑乎乎的命令行操作了。"></a>Centos的图形化界面确实容易崩溃，操作一快就直接卡死，行吧，只能放弃平易近人的桌面，完全用黑乎乎的命令行操作了。</h1><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><blockquote>
+<p><code>host机:centos7.7（minimal）</code> kvm虚拟化 <code>虚机：win7</code>  </p>
 </blockquote>
 <h2 id="u盘安装centos"><a href="#u盘安装centos" class="headerlink" title="u盘安装centos"></a>u盘安装centos</h2><blockquote>
-<p>bios设置u盘启动<br>进入安装界面按TAB修改路径<br>将vmlinuz initrd … quiet 改为 vmlinuz initrd=initrd.img linux dd quiet 找到u盘设备名 (我的是sda1)<br>ctrl+alt+del重启 再次配置 vmlinuz … stage2=hd:/dev/sda1 quiet<br>后面正常安装  </p>
+<p>这一步跟我前一篇文章重复了，就不赘述了.  <a target="_blank" rel="noopener" href="https://github.com/Ricechips/centos7-kvm-win10/blob/master/README.md">上一篇</a><br>给个镜像地址<a target="_blank" rel="noopener" href="http://mirrors.aliyun.com/centos/7.7.1908/isos/x86_64/">http://mirrors.aliyun.com/centos/7.7.1908/isos/x86_64/</a></p>
 </blockquote>
 <h2 id="kvm安装"><a href="#kvm安装" class="headerlink" title="kvm安装"></a>kvm安装</h2><blockquote>
-<p><em>yum install -y qemu-kvm libvirt virt-install bridge-utils</em> （依次是 用户态 命令行 工具 桥接设备)<br>查询kvm模块 <em>lsmod | grep kvm</em><br>启动libvirtd<br> <em>systemctl enable libvirtd <br>  systemctl start libvirtd <br>   systemctl status libvirtd</em><br>安装virt-manager <br><em>yum -y install virt-manager</em> (这个是虚拟机图形化管理界面)  </p>
+<p>这里多一步连接网络 <em>dhclient -v</em><br>其他步骤移步上一篇<br>ps:virt-manager可以不用装了，图形化管理的东西</p>
 </blockquote>
 <h2 id="显卡透传"><a href="#显卡透传" class="headerlink" title="显卡透传"></a>显卡透传</h2><blockquote>
-<ul>
-<li>配置iommu <em>vim /etc/default/grub</em> 将<em>intel_iommu=on</em>放在<em>GRUB_CMDLINE_LINUX=“ ”</em>里面<br>更新grub <em>grub2-mkconfig -o /boot/grub2/grub.cfg</em>  之后<code>reboot</code><br>用<em>dmesg | grep -e DMAR -e IOMMU</em>看是否有IOMMU enabled输出  </li>
-<li>lspci 找到要透传的显卡，记下ID 如：83:00.0 AMD 83:00.1 Audio  </li>
-</ul>
-<p><em>lspci -vv -s 83:00.0 | grep driver</em>可查其驱动<br>查询到之后将驱动禁用 <em>vim /etc/modprobe.d/blacklist.conf</em> <code>blacklist radeon</code> <code>blacklist snd_hda_intel</code> </p>
-<ul>
-<li>不知道原因但是必须做的一步<br>vim /usr/lib/modprobe.d/dist-blacklist.conf 去掉禁用blacklist radeonfb 加上一行options nouveau modeset=0<br>备份原来的 initramfs nouveau image镜像 mv /boot/initramfs-$(uname -r).img /boot/initramfs-$(uname -r)-nouveau.img<br>创建新的 initramfs image镜像 dracut /boot/initramfs-$(uname -r).img $(uname -r)   </li>
-<li>加载vfio驱动<br> <em>modprobe vfio</em><br> <em>modprobe vfio-pci</em>  </li>
-<li>从<code>host机</code>卸载A卡 <br><em>virsh nodedev-detach pci_0000_83_00_0</em> <br><em>virsh nodedev-detach pci_0000_83_00_1</em><br>此时再查询驱动，得到<em>kernel driver in use: vfio-pci</em></li>
-</ul>
+<p>配置iommu<br>这一步要注意是否还有一个/boot/efi/EFI/centos/grub.cfg文件，若有，则在linuxefi  … quiet后面加上 intel_iommu=on，应该有2-3处，然后grub2-mkconfig更新并重启<br>找到显卡pci编号并与宿主机解绑打上vfio驱动<br>显卡的配置文件参数设置</p>
 </blockquote>
+<pre class=" language-c"><code class="language-c"><span class="token operator">&lt;</span><span class="token operator">/</span>video<span class="token operator">></span>#pci显卡设备在video配置下面
+<span class="token operator">&lt;</span>hostdev mode<span class="token operator">=</span><span class="token string">'subsystem'</span> type<span class="token operator">=</span><span class="token string">'pci'</span> managed<span class="token operator">=</span><span class="token string">'yes'</span><span class="token operator">></span>
+  <span class="token operator">&lt;</span>source<span class="token operator">></span>
+    <span class="token operator">&lt;</span>address domain<span class="token operator">=</span><span class="token string">'0x0000'</span> bus<span class="token operator">=</span><span class="token string">'0x0a'</span> slot<span class="token operator">=</span><span class="token string">'0x00'</span> function<span class="token operator">=</span><span class="token string">'0x0'</span><span class="token operator">/</span><span class="token operator">></span>
+  <span class="token operator">&lt;</span><span class="token operator">/</span>source<span class="token operator">></span>
+  <span class="token operator">&lt;</span>address type<span class="token operator">=</span><span class="token string">'pci'</span> domain<span class="token operator">=</span><span class="token string">'0x0000'</span> bus<span class="token operator">=</span><span class="token string">'0x00'</span> slot<span class="token operator">=</span><span class="token string">' '</span> function<span class="token operator">=</span><span class="token string">' '</span><span class="token operator">/</span><span class="token operator">></span> #这一行可以直接dd
+<span class="token operator">&lt;</span><span class="token operator">/</span>hostdev<span class="token operator">></span>
+<span class="token operator">&lt;</span>hostdev mode<span class="token operator">=</span><span class="token string">'subsystem'</span> type<span class="token operator">=</span><span class="token string">'pci'</span> managed<span class="token operator">=</span><span class="token string">'yes'</span><span class="token operator">></span>
+  <span class="token operator">&lt;</span>source<span class="token operator">></span>
+    <span class="token operator">&lt;</span>address domain<span class="token operator">=</span><span class="token string">'0x0000'</span> bus<span class="token operator">=</span><span class="token string">'0x0a'</span> slot<span class="token operator">=</span><span class="token string">'0x00'</span> function<span class="token operator">=</span><span class="token string">'0x1'</span><span class="token operator">/</span><span class="token operator">></span>
+  <span class="token operator">&lt;</span><span class="token operator">/</span>source<span class="token operator">></span>
+  <span class="token operator">&lt;</span>address type<span class="token operator">=</span><span class="token string">'pci'</span> domain<span class="token operator">=</span><span class="token string">'0x0000'</span> bus<span class="token operator">=</span><span class="token string">'0x00'</span> slot<span class="token operator">=</span><span class="token string">' '</span> function<span class="token operator">=</span><span class="token string">' '</span><span class="token operator">/</span><span class="token operator">></span> #这一行可以直接dd
+<span class="token operator">&lt;</span><span class="token operator">/</span>hostdev<span class="token operator">></span></code></pre>
 <h2 id="安装OVMF"><a href="#安装OVMF" class="headerlink" title="安装OVMF"></a>安装OVMF</h2><blockquote>
-<ul>
-<li><em>wget <a target="_blank" rel="noopener" href="http://www.kraxel.org/repos/firmware.repo">http://www.kraxel.org/repos/firmware.repo</a> -O /etc/yum.repos.d/firmware.repo</em>配置yum源  </li>
-</ul>
-<p><em>yum install edk2.git-ovmf-x64</em>  </p>
-<ul>
-<li>配置libvirtd<br> <em>vim /etc/libvirt/qemu.conf</em> <br><code>nvram = [ &quot;/usr/share/edk2.git/ovmf-x64/OVMF_CODE-pure-efi.fd:/usr/share/edk2.git/ovmf-x64/OVMF_VARS-pure-efi.fd&quot;, ]</code>  </li>
-<li>重启libvirtd <br><em>systemctl restart libvirtd</em></li>
-</ul>
+<p>安装wget: <em>curl -o /etc/yum.repos.d/CentOS-Base.repo <a target="_blank" rel="noopener" href="http://mirrors.aliyun.com/repo/Centos-7.repo">http://mirrors.aliyun.com/repo/Centos-7.repo</a></em><br>linux couldnt resolve host mirrors.aliyun.com解决方法</p>
 </blockquote>
-<h2 id="安装win10"><a href="#安装win10" class="headerlink" title="安装win10"></a>安装win10</h2><blockquote>
-<p>virt-manager 打开图形管理界面<br>在配置中以UEFI启动<br>CDROM添入win10.iso<br>这里的引导项有：<code>1.CDROM(win10.iso) 2.CDROM(virtio.iso) 3.VirtIO磁盘(100G)</code><br>加载硬盘时选择<code>加载驱动程序</code>，浏览本地文件即<code>virtio-win-0.1.1</code>目录下的<code>viostor\w10\amd64</code><br>添加PCI设备(83:00:0和83:00:1)<br>之后正常装系统<br>ps:virtio是对此win虚机进行优化，性能实测有质的提升 可在<a target="_blank" rel="noopener" href="https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/">此处</a>下载 对了,网卡也可以改成virtio,具体路径在<code>NetKVM\w10\amd64</code></p>
+<pre class=" language-c"><code class="language-c">vi <span class="token operator">/</span>etc<span class="token operator">/</span>resolv<span class="token punctuation">.</span>conf
+ nameserver <span class="token number">8.8</span><span class="token punctuation">.</span><span class="token number">8.8</span>
+ nameserver <span class="token number">8.8</span><span class="token punctuation">.</span><span class="token number">4.4</span>
+ search localdomain
+
+ service network restart</code></pre>
+<blockquote>
+<p><em>yum install wget</em><br>如果想看ifconfig: <em>yum install net-tools</em> </p>
 </blockquote>
+<h2 id="安装win7"><a href="#安装win7" class="headerlink" title="安装win7"></a>安装win7</h2><blockquote>
+<p>我是直接将打好驱动的win7镜像直接用移动硬盘拷贝到这个命令行界面，当然，配置文件xml也捎上了。<br>centos挂载移动硬盘：</p>
+</blockquote>
+<pre class=" language-c"><code class="language-c">   wget <span class="token operator">-</span>O <span class="token operator">/</span>etc<span class="token operator">/</span>yum<span class="token punctuation">.</span>repos<span class="token punctuation">.</span>d<span class="token operator">/</span>epel<span class="token punctuation">.</span>repo http<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>mirrors<span class="token punctuation">.</span>aliyun<span class="token punctuation">.</span>com<span class="token operator">/</span>repo<span class="token operator">/</span>epel<span class="token number">-7</span><span class="token punctuation">.</span>repo
+   yum install ntfs<span class="token operator">-</span>3g
+   fdisk <span class="token operator">-</span>l #查看移动硬盘编号
+   parted <span class="token operator">/</span>dev<span class="token operator">/</span>sdb print
+   mount <span class="token operator">-</span>t ntfs <span class="token operator">/</span>dev<span class="token operator">/</span>sdb3 <span class="token operator">/</span>home<span class="token operator">/</span>kvm 挂载硬盘到kvm目录下
+   cp 复制qcow2和xml</code></pre>
 <h2 id="usb透传"><a href="#usb透传" class="headerlink" title="usb透传"></a>usb透传</h2><blockquote>
-<p>lsusb查询项透传的usb设备<br>在manager上面直接添加(修改配置文件蛮麻烦的，图形化轻松搞定)</p>
+<p>lsusb命令安装：<em>yum -y install usbutils</em><br>lsusb查询要透传的usb设备得到id号<br>在配置文件中安装，具体位置：</p>
 </blockquote>
-<h3 id="一些心得"><a href="#一些心得" class="headerlink" title="一些心得"></a>一些心得</h3><p>这东西做出来也算是磕破了头吧，查了不知道多少的资料，每一篇都有相似的操作，但又不尽相同，如果按某一篇en头做，基本是失败的，我的做法是结合每篇的精华操作，把流程搞清了，每一步做的意义是什么，明白了之后再具体实现其步骤，有针对性找操作流程，当然，同时不能忘记对硬件的考虑，如<code>硬盘接口脱落，内存条插了总内存反而变少了，主板太热了，无线鼠标会被金属板隔离传输导致卡顿.....</code>行吧，下个任务见。</p>
-<h3 id=""><a href="#" class="headerlink" title=""></a></h3><p>ps:Q:failed to set iommu for container: Operation not permitted<br><br>A:echo “1” &gt; /sys/module/vfio_iommu_type1/parameters/allow_unsafe_interrupts<br><br>virt-host-validate 测试环境<br><br><a target="_blank" rel="noopener" href="https://blog.acesheep.com/index.php/archives/720/">https://blog.acesheep.com/index.php/archives/720/</a> 教程</p>
+<pre class=" language-c"><code class="language-c"><span class="token operator">&lt;</span>hostdev mode<span class="token operator">=</span><span class="token string">'subsystem'</span> type<span class="token operator">=</span><span class="token string">'usb'</span> managed<span class="token operator">=</span><span class="token string">'yes'</span><span class="token operator">></span>
+  <span class="token operator">&lt;</span>source<span class="token operator">></span>
+    <span class="token operator">&lt;</span>vendor id<span class="token operator">=</span><span class="token string">' '</span><span class="token operator">/</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>product id<span class="token operator">=</span><span class="token string">' '</span><span class="token operator">/</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>address bus<span class="token operator">=</span><span class="token string">' '</span> device<span class="token operator">=</span><span class="token string">' '</span><span class="token operator">/</span><span class="token operator">></span> #这一行若是同一牌子的键鼠就要添加
+  <span class="token operator">&lt;</span><span class="token operator">/</span>source<span class="token operator">></span>
+ <span class="token operator">&lt;</span><span class="token operator">/</span>hostdev<span class="token operator">></span></code></pre>
+<h3 id="一些tips"><a href="#一些tips" class="headerlink" title="一些tips"></a>一些tips</h3><p>把封装好驱动的win7.qcow2和win7.xml拷好后，改一下xml的uuid和mac（直接整行删除，因为会自动生成）,然后把qcow2的路径改改，pci显卡的编号改改，usb的id改改，ok之后就<em>virsh define win7.xml</em>生成虚机 <em>virsh start win7</em> 完事。若想删除虚拟机<em>virsh undefine win7</em>,需先删除/var/lib/libvirt/qemu/nvram下的fd文件。<br><a target="_blank" rel="noopener" href="https://wiki.archlinux.org/index.php/PCI_passthrough_via_OVMF_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)">https://wiki.archlinux.org/index.php/PCI_passthrough_via_OVMF_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)</a></p>
 
             </div>
             <hr/>
@@ -455,7 +473,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://ricechips.github.io/2020/08/20/Centos7-kvm/">http://ricechips.github.io/2020/08/20/Centos7-kvm/</a>
+                    <a href="http://ricechips.github.io/2020/08/20/Centos7-7-minimal-kvm/">http://ricechips.github.io/2020/08/20/Centos7-7-minimal-kvm/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -536,22 +554,21 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/08/20/Samba-AD/">
+                <a href="/2020/08/20/python/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="Samba-AD">
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="python">
                         
-                        <span class="card-title">Samba-AD</span>
+                        <span class="card-title">python</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Samba-AD域控
-环境搭建官方文档:依赖搭建步骤
-
-configure使报错:未找到GnuTLS(查询文档，明确要求要从外部获取)wget http://www.ring.gr.jp/pub/net/gnupg/gnutls/v3.6/
+                            :hamburger:表情网址
+python3.8+pycharm2020.2+mysql8.0.21pythonhttps://www.python.org/downloads/windows/
+pycharmhttps://www.je
                         
                     </div>
                     <div class="publish-info">
@@ -576,25 +593,32 @@ configure使报错:未找到GnuTLS(查询文档，明确要求要从外部获取
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/08/19/wsl2/">
+                <a href="/2020/08/20/Zabbix/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="article title">
+                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="Zabbix">
                         
-                        <span class="card-title">article title</span>
+                        <span class="card-title">Zabbix</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            wsl2windows terminal + wsl2 + kali + lolcat
+                            Zabbix环境
+Zabbix server: Centos7 192.168.106.201被监控端:Win7 192.168.106.3    Centos 192.168.106.2
 
+监控服务端
+脚本
+
+#!/bin/bash
+
+#
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-19
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-20
                             </span>
                         <span class="publish-author">
                             
