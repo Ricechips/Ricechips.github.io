@@ -413,7 +413,7 @@ systemctl start httpd
 vi <span class="token operator">/</span>var<span class="token operator">/</span>www<span class="token operator">/</span>html<span class="token operator">/</span>phpinfo<span class="token punctuation">.</span>php
 添入测试文本<span class="token operator">&lt;</span><span class="token operator">?</span>php <span class="token function">phpinfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token operator">?</span><span class="token operator">></span> 
 浏览器访问ip<span class="token operator">/</span>phpinfo<span class="token punctuation">.</span><span class="token function">php</span>  <span class="token punctuation">(</span>firewalld<span class="token punctuation">)</span></code></pre>
-<p><img src="https://github.com/Ricechips/Cacti/blob/master/PrtScn/2020-05-27%2014-41-45%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt="avatar"></p>
+<p><img src="https://raw.githubusercontent.com/Ricechips/Cacti/master/PrtScn/2020-05-27%2014-41-45%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt="cacti"></p>
 <blockquote>
 <p>配置cacti<br></p>
 </blockquote>
@@ -434,7 +434,7 @@ mysql<span class="token operator">></span>grant all privileges on cacti<span cla
 mysql<span class="token operator">></span>grant select on mysql<span class="token punctuation">.</span>time_zone_name to cacti@localhost identified by ‘password’<span class="token punctuation">;</span>
 mysql<span class="token operator">></span>flush privileges<span class="token punctuation">;</span></code></pre>
 <blockquote>
-<p>我的配置过程<br><img src="https://github.com/Ricechips/Cacti/blob/master/PrtScn/2020-05-27%2014-53-38%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt="avatar"><br>导入cacti数据库<br>官网下载包<a target="_blank" rel="noopener" href="https://www.cacti.net/download_cacti.php">跳转</a><br>解压到目录下</p>
+<p>我的配置过程<br><img src="https://raw.githubusercontent.com/Ricechips/Cacti/master/PrtScn/2020-05-27%2014-53-38%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt="cacti"><br>导入cacti数据库<br>官网下载包<a target="_blank" rel="noopener" href="https://www.cacti.net/download_cacti.php">跳转</a><br>解压到目录下</p>
 </blockquote>
 <pre class=" language-c"><code class="language-c">mysql <span class="token operator">-</span>uroot <span class="token operator">-</span>p123456
 mysql<span class="token operator">></span>use cacti <span class="token punctuation">;</span>
@@ -480,13 +480,13 @@ vi <span class="token operator">/</span>etc<span class="token operator">/</span>
 浏览器访问ip<span class="token operator">/</span>cacti
 log报错修改：chmod <span class="token number">777</span> <span class="token operator">/</span>var<span class="token operator">/</span>www<span class="token operator">/</span>html<span class="token operator">/</span>cacti<span class="token operator">/</span>log
 默认密码admin<span class="token operator">/</span>admin</code></pre>
-<p><img src="https://github.com/Ricechips/Cacti/blob/master/PrtScn/2020-05-27%2016-48-51%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt="avatar"></p>
+<p><img src="https://raw.githubusercontent.com/Ricechips/Cacti/master/PrtScn/2020-05-27%2016-48-51%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt="cacti"></p>
 <blockquote>
 <p>一些报错修改（不修改不能继续安装）<br><br>1.报错：Your MySQL TimeZone database is not populated. Please populate this database before proceeding.<br><br>修改：mysql_tzinfo_to_sql /usr/share/zoneinfo/Asia/Shanghai Shanghai | mysql -u root -p mysql<br><br>2.报错：A valid timezone that matches MySQL and the system<br><br>修改：vim /etc/php.ini 将date.timezone前面的分号去掉(重启httpd)<br><br>3.报错：某些php模块显示没有安装<br><br>修改：yum install -y php-缺少的模块名,安装之后systemctl restart httpd并刷新cacti网页<br><br>4.Set global max_allowed_packet=17700000;<br><br>5.权限问题（不可写入）chmod a+w /var/www/html/cacti/resource/snmp_queries/或777<br><br>6.cacti无法显示图像：chmod 777 -R /var/www/html/cacti/rra并service snmpd restart<br><br>7.监控本机localhost，snmp返回失败：修改主机名为127.0.0.1而不是localhost</p>
 </blockquote>
-<h2 id="ok"><a href="#ok" class="headerlink" title="ok"></a>ok</h2><p><img src="https://github.com/Ricechips/Cacti/blob/master/PrtScn/2020-05-27%2017-45-41%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt="avatar"></p>
+<h2 id="ok"><a href="#ok" class="headerlink" title="ok"></a>ok</h2><p><img src="https://raw.githubusercontent.com/Ricechips/Cacti/master/PrtScn/2020-05-27%2017-45-41%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt="cacti"></p>
 <h2 id="被监控端Win7"><a href="#被监控端Win7" class="headerlink" title="被监控端Win7"></a>被监控端Win7</h2><blockquote>
-<p>控制面板开启SNMP服务<br><br>设置服务团体public,允许任何主机访问<br><br>关闭防火墙<br><br><img src="https://github.com/Ricechips/Cacti/blob/master/PrtScn/2020-05-28%2010-08-41%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt="avatar"><br>yum install perl-devel perl-CPAN perl-YAML<br><br>perl -MCPAN -e shell<br><br>cpan&gt; install LWP::UserAgent</p>
+<p>控制面板开启SNMP服务<br><br>设置服务团体public,允许任何主机访问<br><br>关闭防火墙<br><br><img src="https://raw.githubusercontent.com/Ricechips/Cacti/master/PrtScn/2020-05-28%2010-08-41%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt="cacti"><br>yum install perl-devel perl-CPAN perl-YAML<br><br>perl -MCPAN -e shell<br><br>cpan&gt; install LWP::UserAgent</p>
 </blockquote>
 <h2 id="被监控端Centos7"><a href="#被监控端Centos7" class="headerlink" title="被监控端Centos7"></a>被监控端Centos7</h2><blockquote>
 <p>yum -y install net-snmp net-snmp-utils<br><br>/etc/snmp/snmpd.conf<br><br>com2sec notConfigUser default public<br><br>access notConfigGroup ‘’’’ any noauth exact <em>all</em> none none<br><br>去掉注释#view all included .1 80<br><br>加一行view all included .1<br><br>service snmpd start<br><br>测试 snmpwalk -v 2c- c public 192.168.106.xx</p>
@@ -505,13 +505,13 @@ log报错修改：chmod <span class="token number">777</span> <span class="token
 <span class="token operator">&lt;</span><span class="token operator">/</span>snmpSettings<span class="token operator">></span>
 <span class="token operator">&lt;</span><span class="token operator">/</span>config<span class="token operator">></span></code></pre>
 <blockquote>
-<p>cacti添加esxi主机(同一网段)<br><br><img src="https://github.com/Ricechips/Cacti/blob/master/PrtScn/2020-06-02%2015-51-40%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt="avatar"></p>
+<p>cacti添加esxi主机(同一网段)<br><br><img src="https://raw.githubusercontent.com/Ricechips/Cacti/master/PrtScn/2020-06-02%2015-51-40%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt="cacti"></p>
 </blockquote>
 <h2 id="监控Cisco交换机"><a href="#监控Cisco交换机" class="headerlink" title="监控Cisco交换机"></a>监控Cisco交换机</h2><blockquote>
-<p>交换机用com口转usb线连接到win，putty通过com3口登陆进行snmp的配置(网段ip)<br><br>服务器添加交换机<br><br><img src="https://github.com/Ricechips/Cacti/blob/master/PrtScn/2020-06-03%2010-30-37%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt="avatar"></p>
+<p>交换机用com口转usb线连接到win，putty通过com3口登陆进行snmp的配置(网段ip)<br><br>服务器添加交换机<br><br><img src="https://raw.githubusercontent.com/Ricechips/Cacti/master/PrtScn/2020-06-03%2010-30-37%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt="cacti"></p>
 </blockquote>
 <h2 id="配置邮件报警"><a href="#配置邮件报警" class="headerlink" title="配置邮件报警"></a>配置邮件报警</h2><blockquote>
-<p>qq邮箱开启smtp并获得授权码<br><br>在cacti管理界面输入相应信息并发送测试邮件<br><img src="https://github.com/Ricechips/Cacti/blob/master/PrtScn/2020-06-03%2014-01-00%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt="avatar"></p>
+<p>qq邮箱开启smtp并获得授权码<br><br>在cacti管理界面输入相应信息并发送测试邮件<br><img src="https://raw.githubusercontent.com/Ricechips/Cacti/master/PrtScn/2020-06-03%2014-01-00%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt="cacti"></p>
 </blockquote>
 <h2 id="升级Cacti"><a href="#升级Cacti" class="headerlink" title="升级Cacti"></a>升级Cacti</h2><blockquote>
 <p>因插件版本问题，将原本的Cacti1.2.1升级到最新版1.2.12(2020.5.3)</p>
@@ -524,16 +524,16 @@ cp <span class="token operator">/</span>var<span class="token operator">/</span>
 cp <span class="token operator">-</span>u <span class="token operator">/</span>var<span class="token operator">/</span>www<span class="token operator">/</span>html<span class="token operator">/</span>cacti_old<span class="token operator">/</span>scripts<span class="token operator">/</span><span class="token operator">*</span> <span class="token operator">/</span>var<span class="token operator">/</span>www<span class="token operator">/</span>html<span class="token operator">/</span>cacti<span class="token operator">/</span>scripts<span class="token operator">/</span>
 cp <span class="token operator">-</span>u <span class="token operator">-</span>R <span class="token operator">/</span>var<span class="token operator">/</span>www<span class="token operator">/</span>html<span class="token operator">/</span>cacti_old<span class="token operator">/</span>resource<span class="token operator">/</span><span class="token operator">*</span> <span class="token operator">/</span>var<span class="token operator">/</span>www<span class="token operator">/</span>html<span class="token operator">/</span>cacti<span class="token operator">/</span>resource<span class="token operator">/</span></code></pre>
 <blockquote>
-<p>刷新管理平台界面并安装<br><img src="https://github.com/Ricechips/Cacti/blob/master/PrtScn/2020-06-03%2014-46-40%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt="avatar"></p>
+<p>刷新管理平台界面并安装<br><img src="https://raw.githubusercontent.com/Ricechips/Cacti/master/PrtScn/2020-06-03%2014-46-40%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt="cacti"></p>
 </blockquote>
 <h2 id="配置Thold警报机制"><a href="#配置Thold警报机制" class="headerlink" title="配置Thold警报机制"></a>配置Thold警报机制</h2><blockquote>
-<p>从cacti的github界面下载插件thold包<a target="_blank" rel="noopener" href="https://github.com/Cacti/plugin_thold/archive/develop.zip">跳转</a><br><br><br>将包解压后放在/var/www/html/cacti/plugins路径下并改名为thold<br><br>刷新控制台，安装插件<br><br><img src="https://github.com/Ricechips/Cacti/blob/master/PrtScn/2020-06-04%2010-31-42%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt="avatar"><br>根据图形模版来设置阈值<br><img src="https://github.com/Ricechips/Cacti/blob/master/PrtScn/TIM%E5%9B%BE%E7%89%8720200604104626.png" alt="avatar"></p>
+<p>从cacti的github界面下载插件thold包<a target="_blank" rel="noopener" href="https://github.com/Cacti/plugin_thold/archive/develop.zip">跳转</a> <br><br>将包解压后放在/var/www/html/cacti/plugins路径下并改名为thold<br><br>刷新控制台，安装插件<br><br><img src="https://raw.githubusercontent.com/Ricechips/Cacti/master/PrtScn/2020-06-04%2010-31-42%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt="cacti"><br>根据图形模版来设置阈值<br><img src="https://raw.githubusercontent.com/Ricechips/Cacti/master/PrtScn/TIM%E5%9B%BE%E7%89%8720200604104626.png" alt="cacti"></p>
 </blockquote>
 <h2 id="配置开源邮件服务器EwoMail接收报警"><a href="#配置开源邮件服务器EwoMail接收报警" class="headerlink" title="配置开源邮件服务器EwoMail接收报警"></a>配置开源邮件服务器EwoMail接收报警</h2><blockquote>
-<p>EwoMail官方文档<a target="_blank" rel="noopener" href="http://doc.ewomail.com/docs/ewomail/install">跳转</a><br><br>邮件smtp配置及效果图<br><br><img src="https://github.com/Ricechips/Cacti/blob/master/PrtScn/Screenshot%20from%202020-06-18%2010-05-46.png" alt="avatar"><br><img src="https://github.com/Ricechips/Cacti/blob/master/PrtScn/2020-06-18%2009-58-11%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt="avatar"></p>
+<p>EwoMail官方文档<a target="_blank" rel="noopener" href="http://doc.ewomail.com/docs/ewomail/install">跳转</a> <br><br>邮件smtp配置及效果图<br><br><img src="https://raw.githubusercontent.com/Ricechips/Cacti/master/PrtScn/Screenshot%20from%202020-06-18%2010-05-46.png" alt="cacti"><br><img src="https://raw.githubusercontent.com/Ricechips/Cacti/master/PrtScn/2020-06-18%2009-58-11%20%E7%9A%84%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE.png" alt="cacti"></p>
 </blockquote>
 <h2 id="线上的离线环境centos系统安装snmp服务"><a href="#线上的离线环境centos系统安装snmp服务" class="headerlink" title="线上的离线环境centos系统安装snmp服务"></a>线上的离线环境centos系统安装snmp服务</h2><blockquote>
-<p>下载rpm包，根据依赖一个一个安装<br><br>包的下载地址:<a target="_blank" rel="noopener" href="https://rpmfind.net/">https://rpmfind.net/</a><br><br>示例:<br><img src="https://github.com/Ricechips/Cacti/blob/master/PrtScn/%E6%8D%95%E8%8E%B7.PNG" alt="avatar"></p>
+<p>下载rpm包，根据依赖一个一个安装<br><br>包的下载地址:<a target="_blank" rel="noopener" href="https://rpmfind.net/">https://rpmfind.net/</a><br><br>示例:<br><img src="https://raw.githubusercontent.com/Ricechips/Cacti/master/PrtScn/%E6%8D%95%E8%8E%B7.PNG" alt="cacti"></p>
 </blockquote>
 <h2 id="轮询器优化cmd-gt-spine"><a href="#轮询器优化cmd-gt-spine" class="headerlink" title="轮询器优化cmd-&gt;spine"></a>轮询器优化cmd-&gt;spine</h2><p>官网下载最新包 源码编译时报错:c compiler cannot create executables<br><br>一开始以为是gcc没装好，remove后重装还是报错，找了十来篇文章无果，突然看到一篇</p>
 <pre class=" language-c"><code class="language-c">查找原因，查看config<span class="token punctuation">.</span>log 日志
