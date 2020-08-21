@@ -399,7 +399,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p><a target="_blank" rel="noopener" href="https://www.webfx.com/tools/emoji-cheat-sheet/">表情网址</a></p>
+                <p>:hamburger:<br><a target="_blank" rel="noopener" href="https://www.webfx.com/tools/emoji-cheat-sheet/">表情网址</a></p>
 <h1 id="python3-8-pycharm2020-2-mysql8-0-21"><a href="#python3-8-pycharm2020-2-mysql8-0-21" class="headerlink" title="python3.8+pycharm2020.2+mysql8.0.21"></a>python3.8+pycharm2020.2+mysql8.0.21</h1><h2 id="python"><a href="#python" class="headerlink" title="python"></a>python</h2><p><a target="_blank" rel="noopener" href="https://www.python.org/downloads/windows/">https://www.python.org/downloads/windows/</a></p>
 <h2 id="pycharm"><a href="#pycharm" class="headerlink" title="pycharm"></a>pycharm</h2><p><a target="_blank" rel="noopener" href="https://www.jetbrains.com/pycharm/download/#section=windows">https://www.jetbrains.com/pycharm/download/#section=windows</a> <br><br>Professional激活方法<br><br>Community版本没有内置database插件,并且最新版没有可用的插件</p>
 <h2 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h2><p><a target="_blank" rel="noopener" href="https://dev.mysql.com/downloads/">https://dev.mysql.com/downloads/</a> <br><br>创建my.ini配置文件</p>
@@ -429,7 +429,25 @@ default-storage-engine=INNODB</code></pre>
 <p>贴吧<br><img src="https://cdn.jsdelivr.net/gh/Ricechips/image/image/20200821113801.png"></p>
 <p>小说<br><img src="https://cdn.jsdelivr.net/gh/Ricechips/image/image/20200821113749.png"></p>
 <p>豆瓣<br><img src="https://cdn.jsdelivr.net/gh/Ricechips/image/image/20200821113736.png"></p>
-
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
             </div>
             <hr/>
 
