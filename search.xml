@@ -61,7 +61,9 @@
       
         <tags>
             
-            <tag> -kvm -虚拟化 </tag>
+            <tag> kvm </tag>
+            
+            <tag> 虚拟化 </tag>
             
         </tags>
       
