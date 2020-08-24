@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Centos7-kvm, linux|shell|python|kvm">
+    <meta name="keywords" content="Opennebula, linux|shell|python|kvm">
     <meta name="description" content="一个正在努力成长的linux运维">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Centos7-kvm | 2020努力的胡建人</title>
+    <title>Opennebula | 2020努力的胡建人</title>
     <link rel="icon" type="image/jpeg" href="https://cdn.jsdelivr.net/gh/Ricechips/ricechips.github.io/favicon.jpg">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Ricechips/ricechips.github.io/libs/awesome/css/all.css">
@@ -241,12 +241,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/Ricechips/image/image/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/Ricechips/ricechips.github.io/medias/featureimages/2.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Centos7-kvm</h1>
+                    <h1 class="description center-align post-title">Opennebula</h1>
                 </div>
             </div>
         </div>
@@ -391,45 +391,22 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="工作要求，搞了一个礼拜，结合了各大blog文章、各大网站教程，终于把透传完成了，现在总结一下流程8"><a href="#工作要求，搞了一个礼拜，结合了各大blog文章、各大网站教程，终于把透传完成了，现在总结一下流程8" class="headerlink" title="工作要求，搞了一个礼拜，结合了各大blog文章、各大网站教程，终于把透传完成了，现在总结一下流程8."></a>工作要求，搞了一个礼拜，结合了各大blog文章、各大网站教程，终于把透传完成了，现在总结一下流程8.</h1><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><blockquote>
-<p><code>host机:centos7.7</code> kvm虚拟化 <code>虚机：win10</code>  </p>
+                <h1 id="Opennebula"><a href="#Opennebula" class="headerlink" title="Opennebula"></a>Opennebula</h1><p>网上的资料也太少了吧！</p>
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><blockquote>
+<p>主控端服务器：Centos7  192.168.106.201 <br><br>节点服务器（虚拟机）：Centos7  192.168.106.2 <br><br>虚拟机里面的虚拟机：ttylinux (chop wood,carry water)</p>
 </blockquote>
-<h2 id="u盘安装centos"><a href="#u盘安装centos" class="headerlink" title="u盘安装centos"></a>u盘安装centos</h2><blockquote>
-<p>bios设置u盘启动<br>进入安装界面按TAB修改路径<br>将vmlinuz initrd … quiet 改为 vmlinuz initrd=initrd.img linux dd quiet 找到u盘设备名 (我的是sda1)<br>ctrl+alt+del重启 再次配置 vmlinuz … stage2=hd:/dev/sda1 quiet<br>后面正常安装  </p>
+<h2 id="主控端配置"><a href="#主控端配置" class="headerlink" title="主控端配置"></a>主控端配置</h2><blockquote>
+<p>第一种方法：脚本安装 <br><br><em>wget ‘<a target="_blank" rel="noopener" href="https://github.com/OpenNebula/minione/releases/latest/download/minione'">https://github.com/OpenNebula/minione/releases/latest/download/minione'</a></em> <br><br><em>bash minione</em><br><br>官方给出的一键安装脚本，因为服务器原因，速度慢</p>
 </blockquote>
-<h2 id="kvm安装"><a href="#kvm安装" class="headerlink" title="kvm安装"></a>kvm安装</h2><blockquote>
-<p><em>yum install -y qemu-kvm libvirt virt-install bridge-utils</em> （依次是 用户态 命令行 工具 桥接设备)<br>查询kvm模块 <em>lsmod | grep kvm</em><br>启动libvirtd<br> <em>systemctl enable libvirtd <br>  systemctl start libvirtd <br>   systemctl status libvirtd</em><br>安装virt-manager <br><em>yum -y install virt-manager</em> (这个是虚拟机图形化管理界面)  </p>
+<blockquote>
+<p>第二种方法：正常流程安装<br><br><em>vim /etc/selinux/config</em>将<em>SELINUX=disabled</em>，reboot<br><br>加源<br><br>cat &lt;&lt; “EOT” &gt; /etc/yum.repos.d/opennebula.repo<br><br> [opennebula]<br><br> name=opennebula<br><br> baseurl=<a target="_blank" rel="noopener" href="https://downloads.opennebula.org/repo/5.10/CentOS/7/$basearch">https://downloads.opennebula.org/repo/5.10/CentOS/7/$basearch</a><br><br> enabled=1<br><br> gpgkey=<a target="_blank" rel="noopener" href="https://downloads.opennebula.org/repo/repo.key">https://downloads.opennebula.org/repo/repo.key</a><br><br> gpgcheck=1<br><br> repo_gpgcheck=1<br><br> EOT<br><br><br><em>yum install epel-release</em><br><br><em>yum install opennebula-server opennebula-sunstone opennebula-ruby opennebula-gate opennebula-flow</em>安装依赖<br><br><em>echo “oneadmin:mypassword” &gt; ~/.one/one_auth</em>设置管理平台帐号密码<br><br><em>systemctl start opennebula</em> <em>systemctl start opennebula-sunstone</em>开启服务<br><br><em>oneuser show</em>验证是否正常安装<br><br><em><a target="_blank" rel="noopener" href="http://ip:9869/">http://ip:9869</a></em>浏览器访问控制面板<br><br><img src="https://cdn.jsdelivr.net/gh/Ricechips/image/image/20200821102640.png"></p>
 </blockquote>
-<h2 id="显卡透传"><a href="#显卡透传" class="headerlink" title="显卡透传"></a>显卡透传</h2><blockquote>
-<ul>
-<li>配置iommu <em>vim /etc/default/grub</em> 将<em>intel_iommu=on</em>放在<em>GRUB_CMDLINE_LINUX=“ ”</em>里面<br>更新grub <em>grub2-mkconfig -o /boot/grub2/grub.cfg</em>  之后<code>reboot</code><br>用<em>dmesg | grep -e DMAR -e IOMMU</em>看是否有IOMMU enabled输出  </li>
-<li>lspci 找到要透传的显卡，记下ID 如：83:00.0 AMD 83:00.1 Audio  </li>
-</ul>
-<p><em>lspci -vv -s 83:00.0 | grep driver</em>可查其驱动<br>查询到之后将驱动禁用 <em>vim /etc/modprobe.d/blacklist.conf</em> <code>blacklist radeon</code> <code>blacklist snd_hda_intel</code> </p>
-<ul>
-<li>不知道原因但是必须做的一步<br>vim /usr/lib/modprobe.d/dist-blacklist.conf 去掉禁用blacklist radeonfb 加上一行options nouveau modeset=0<br>备份原来的 initramfs nouveau image镜像 mv /boot/initramfs-$(uname -r).img /boot/initramfs-$(uname -r)-nouveau.img<br>创建新的 initramfs image镜像 dracut /boot/initramfs-$(uname -r).img $(uname -r)   </li>
-<li>加载vfio驱动<br> <em>modprobe vfio</em><br> <em>modprobe vfio-pci</em>  </li>
-<li>从<code>host机</code>卸载A卡 <br><em>virsh nodedev-detach pci_0000_83_00_0</em> <br><em>virsh nodedev-detach pci_0000_83_00_1</em><br>此时再查询驱动，得到<em>kernel driver in use: vfio-pci</em></li>
-</ul>
+<h2 id="节点服务器配置"><a href="#节点服务器配置" class="headerlink" title="节点服务器配置"></a>节点服务器配置</h2><blockquote>
+<p>创建虚拟机并配置网络<br><br>打通主控和节点服务器网络，例：<em>ip route add 192.168.106.0/24 via 192.168.106.1 dev ens3</em><br><br>加源并安装依赖<em>yum install opennebula-node-kvm</em> 重启服务<em>systemctl restart libvirtd</em><br><br>禁用SElinux<br><br>配置ssh无密码连接 <em>vim /etc/hosts</em>修改主机名如：<br>192.168.106.201 host <br> 192.168.106.2 node<br><br><br> <em>ssh-keyscan host node  &gt;&gt; /var/lib/one/.ssh/known_hosts</em> <br> * scp /var/lib/one/.ssh/*  root@node:/var/lib/one/.ssh/* <br> 此时主控端ssh node可直接登陆节点</p>
 </blockquote>
-<h2 id="安装OVMF"><a href="#安装OVMF" class="headerlink" title="安装OVMF"></a>安装OVMF</h2><blockquote>
-<ul>
-<li><em>wget <a target="_blank" rel="noopener" href="http://www.kraxel.org/repos/firmware.repo">http://www.kraxel.org/repos/firmware.repo</a> -O /etc/yum.repos.d/firmware.repo</em>配置yum源  </li>
-</ul>
-<p><em>yum install edk2.git-ovmf-x64</em>  </p>
-<ul>
-<li>配置libvirtd<br> <em>vim /etc/libvirt/qemu.conf</em> <br><code>nvram = [ "/usr/share/edk2.git/ovmf-x64/OVMF_CODE-pure-efi.fd:/usr/share/edk2.git/ovmf-x64/OVMF_VARS-pure-efi.fd", ]</code>  </li>
-<li>重启libvirtd <br><em>systemctl restart libvirtd</em></li>
-</ul>
+<h2 id="sunstone面板"><a href="#sunstone面板" class="headerlink" title="sunstone面板"></a>sunstone面板</h2><blockquote>
+<p>设置可以切换中文<br><br>基础设施-&gt;主机 添加node节点(kvm类型)<br><br>从opennebula public下载镜像创建虚机进行管理<br><br><img src="https://cdn.jsdelivr.net/gh/Ricechips/image/image/20200821102707.png"></p>
 </blockquote>
-<h2 id="安装win10"><a href="#安装win10" class="headerlink" title="安装win10"></a>安装win10</h2><blockquote>
-<p>virt-manager 打开图形管理界面<br>在配置中以UEFI启动<br>CDROM添入win10.iso<br>这里的引导项有：<code>1.CDROM(win10.iso) 2.CDROM(virtio.iso) 3.VirtIO磁盘(100G)</code><br>加载硬盘时选择<code>加载驱动程序</code>，浏览本地文件即<code>virtio-win-0.1.1</code>目录下的<code>viostor\w10\amd64</code><br>添加PCI设备(83:00:0和83:00:1)<br>之后正常装系统<br>ps:virtio是对此win虚机进行优化，性能实测有质的提升 可在<a target="_blank" rel="noopener" href="https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/">此处</a> 下载 对了,网卡也可以改成virtio,具体路径在<code>NetKVM\w10\amd64</code></p>
-</blockquote>
-<h2 id="usb透传"><a href="#usb透传" class="headerlink" title="usb透传"></a>usb透传</h2><blockquote>
-<p>lsusb查询项透传的usb设备<br>在manager上面直接添加(修改配置文件蛮麻烦的，图形化轻松搞定)</p>
-</blockquote>
-<h3 id="一些心得"><a href="#一些心得" class="headerlink" title="一些心得"></a>一些心得</h3><p>这东西做出来也算是磕破了头吧，查了不知道多少的资料，每一篇都有相似的操作，但又不尽相同，如果按某一篇en头做，基本是失败的，我的做法是结合每篇的精华操作，把流程搞清了，每一步做的意义是什么，明白了之后再具体实现其步骤，有针对性找操作流程，当然，同时不能忘记对硬件的考虑，如<code>硬盘接口脱落，内存条插了总内存反而变少了，主板太热了，无线鼠标会被金属板隔离传输导致卡顿.....</code>行吧，下个任务见。</p>
-<h3 id=""><a href="#" class="headerlink" title=""></a></h3><p>ps:Q:failed to set iommu for container: Operation not permitted<br><br>A:echo “1” &gt; /sys/module/vfio_iommu_type1/parameters/allow_unsafe_interrupts<br><br>virt-host-validate 测试环境<br><br><a target="_blank" rel="noopener" href="https://blog.acesheep.com/index.php/archives/720/">https://blog.acesheep.com/index.php/archives/720/</a> 教程</p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -473,7 +450,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://ricechips.github.io/2020/08/20/index.html">http://ricechips.github.io/2020/08/20/index.html</a>
+                    <a href="http://ricechips.github.io/posts/opennebula/">http://ricechips.github.io/posts/opennebula/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -554,22 +531,21 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/08/20/index.html">
+                <a href="/posts/undefined/">
                     <div class="card-image">
                         
                         
-                        <img src="https://cdn.jsdelivr.net/gh/Ricechips/ricechips.github.io/medias/featureimages/5.jpg" class="responsive-img" alt="Samba-AD">
+                        <img src="https://cdn.jsdelivr.net/gh/Ricechips/ricechips.github.io/medias/featureimages/3.jpg" class="responsive-img" alt="Linux">
                         
-                        <span class="card-title">Samba-AD</span>
+                        <span class="card-title">Linux</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Samba-AD域控
-环境搭建官方文档:依赖搭建步骤
-
-configure使报错:未找到GnuTLS(查询文档，明确要求要从外部获取)wget http://www.ring.gr.jp/pub/net/gnupg/gnutls/v3.6/
+                            Linux查找vi内固定行ctrl + g 显示行数 命令模式   :n   (n)为想要跳转的行数 系统加载进度条消失之术
+静态ip网络配置/etc/sysconfig/network-scripts/ 找到网卡
+编辑  dhcp->st
                         
                     </div>
                     <div class="publish-info">
@@ -594,24 +570,31 @@ configure使报错:未找到GnuTLS(查询文档，明确要求要从外部获取
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/08/19/index.html">
+                <a href="/posts/cacti/">
                     <div class="card-image">
                         
                         
-                        <img src="https://cdn.jsdelivr.net/gh/Ricechips/ricechips.github.io/medias/featureimages/8.jpg" class="responsive-img" alt="Hello World">
+                        <img src="https://cdn.jsdelivr.net/gh/Ricechips/ricechips.github.io/medias/featureimages/14.jpg" class="responsive-img" alt="Cacti">
                         
-                        <span class="card-title">Hello World</span>
+                        <span class="card-title">Cacti</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hex
+                            Cacti
+蛮麻烦的
+
+环境
+服务端:Centos7  被监控端:win7
+
+Cacti服务端搭建
+安装Mysqlrpm -Uvh http://repo.mysql.com/mysql57-community-release-el7.rp
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-19
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-20
                             </span>
                         <span class="publish-author">
                             
