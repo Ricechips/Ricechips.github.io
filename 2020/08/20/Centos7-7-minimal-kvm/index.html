@@ -456,7 +456,25 @@
   <span class="token operator">&lt;</span><span class="token operator">/</span>source<span class="token operator">></span>
  <span class="token operator">&lt;</span><span class="token operator">/</span>hostdev<span class="token operator">></span></code></pre>
 <h3 id="一些tips"><a href="#一些tips" class="headerlink" title="一些tips"></a>一些tips</h3><p>把封装好驱动的win7.qcow2和win7.xml拷好后，改一下xml的uuid和mac（直接整行删除，因为会自动生成）,然后把qcow2的路径改改，pci显卡的编号改改，usb的id改改，ok之后就<em>virsh define win7.xml</em>生成虚机 <em>virsh start win7</em> 完事。若想删除虚拟机<em>virsh undefine win7</em>,需先删除/var/lib/libvirt/qemu/nvram下的fd文件。<br><a target="_blank" rel="noopener" href="https://wiki.archlinux.org/index.php/PCI_passthrough_via_OVMF_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)">https://wiki.archlinux.org/index.php/PCI_passthrough_via_OVMF_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)</a></p>
-
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
             </div>
             <hr/>
 

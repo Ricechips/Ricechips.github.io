@@ -396,7 +396,7 @@
 <p>主控端服务器：Centos7  192.168.106.201 <br><br>节点服务器（虚拟机）：Centos7  192.168.106.2 <br><br>虚拟机里面的虚拟机：ttylinux (chop wood,carry water)</p>
 </blockquote>
 <h2 id="主控端配置"><a href="#主控端配置" class="headerlink" title="主控端配置"></a>主控端配置</h2><blockquote>
-<p>第一种方法：脚本安装 <br><br><em>wget ‘<a target="_blank" rel="noopener" href="https://github.com/OpenNebula/minione/releases/latest/download/minione&#39;">https://github.com/OpenNebula/minione/releases/latest/download/minione&#39;</a></em> <br><br><em>bash minione</em><br><br>官方给出的一键安装脚本，因为服务器原因，速度慢</p>
+<p>第一种方法：脚本安装 <br><br><em>wget ‘<a target="_blank" rel="noopener" href="https://github.com/OpenNebula/minione/releases/latest/download/minione'">https://github.com/OpenNebula/minione/releases/latest/download/minione'</a></em> <br><br><em>bash minione</em><br><br>官方给出的一键安装脚本，因为服务器原因，速度慢</p>
 </blockquote>
 <blockquote>
 <p>第二种方法：正常流程安装<br><br><em>vim /etc/selinux/config</em>将<em>SELINUX=disabled</em>，reboot<br><br>加源<br><br>cat &lt;&lt; “EOT” &gt; /etc/yum.repos.d/opennebula.repo<br><br> [opennebula]<br><br> name=opennebula<br><br> baseurl=<a target="_blank" rel="noopener" href="https://downloads.opennebula.org/repo/5.10/CentOS/7/$basearch">https://downloads.opennebula.org/repo/5.10/CentOS/7/$basearch</a><br><br> enabled=1<br><br> gpgkey=<a target="_blank" rel="noopener" href="https://downloads.opennebula.org/repo/repo.key">https://downloads.opennebula.org/repo/repo.key</a><br><br> gpgcheck=1<br><br> repo_gpgcheck=1<br><br> EOT<br><br><br><em>yum install epel-release</em><br><br><em>yum install opennebula-server opennebula-sunstone opennebula-ruby opennebula-gate opennebula-flow</em>安装依赖<br><br><em>echo “oneadmin:mypassword” &gt; ~/.one/one_auth</em>设置管理平台帐号密码<br><br><em>systemctl start opennebula</em> <em>systemctl start opennebula-sunstone</em>开启服务<br><br><em>oneuser show</em>验证是否正常安装<br><br><em><a target="_blank" rel="noopener" href="http://ip:9869/">http://ip:9869</a></em>浏览器访问控制面板<br><br><img src="https://cdn.jsdelivr.net/gh/Ricechips/image/image/20200821102640.png"></p>
@@ -407,7 +407,25 @@
 <h2 id="sunstone面板"><a href="#sunstone面板" class="headerlink" title="sunstone面板"></a>sunstone面板</h2><blockquote>
 <p>设置可以切换中文<br><br>基础设施-&gt;主机 添加node节点(kvm类型)<br><br>从opennebula public下载镜像创建虚机进行管理<br><br><img src="https://cdn.jsdelivr.net/gh/Ricechips/image/image/20200821102707.png"></p>
 </blockquote>
-
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
             </div>
             <hr/>
 
