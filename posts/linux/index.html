@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Opennebula, linux|shell|python|kvm">
+    <meta name="keywords" content="Linux, linux|shell|python|kvm">
     <meta name="description" content="一个正在努力成长的linux运维">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Opennebula | 2020努力的胡建人</title>
+    <title>Linux | 2020努力的胡建人</title>
     <link rel="icon" type="image/jpeg" href="https://cdn.jsdelivr.net/gh/Ricechips/ricechips.github.io/favicon.jpg">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Ricechips/ricechips.github.io/libs/awesome/css/all.css">
@@ -241,12 +241,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/Ricechips/ricechips.github.io/medias/featureimages/2.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/Ricechips/ricechips.github.io/medias/featureimages/3.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Opennebula</h1>
+                    <h1 class="description center-align post-title">Linux</h1>
                 </div>
             </div>
         </div>
@@ -391,22 +391,101 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="Opennebula"><a href="#Opennebula" class="headerlink" title="Opennebula"></a>Opennebula</h1><p>网上的资料也太少了吧！</p>
-<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><blockquote>
-<p>主控端服务器：Centos7  192.168.106.201 <br><br>节点服务器（虚拟机）：Centos7  192.168.106.2 <br><br>虚拟机里面的虚拟机：ttylinux (chop wood,carry water)</p>
-</blockquote>
-<h2 id="主控端配置"><a href="#主控端配置" class="headerlink" title="主控端配置"></a>主控端配置</h2><blockquote>
-<p>第一种方法：脚本安装 <br><br><em>wget ‘<a target="_blank" rel="noopener" href="https://github.com/OpenNebula/minione/releases/latest/download/minione'">https://github.com/OpenNebula/minione/releases/latest/download/minione'</a></em> <br><br><em>bash minione</em><br><br>官方给出的一键安装脚本，因为服务器原因，速度慢</p>
-</blockquote>
-<blockquote>
-<p>第二种方法：正常流程安装<br><br><em>vim /etc/selinux/config</em>将<em>SELINUX=disabled</em>，reboot<br><br>加源<br><br>cat &lt;&lt; “EOT” &gt; /etc/yum.repos.d/opennebula.repo<br><br> [opennebula]<br><br> name=opennebula<br><br> baseurl=<a target="_blank" rel="noopener" href="https://downloads.opennebula.org/repo/5.10/CentOS/7/$basearch">https://downloads.opennebula.org/repo/5.10/CentOS/7/$basearch</a><br><br> enabled=1<br><br> gpgkey=<a target="_blank" rel="noopener" href="https://downloads.opennebula.org/repo/repo.key">https://downloads.opennebula.org/repo/repo.key</a><br><br> gpgcheck=1<br><br> repo_gpgcheck=1<br><br> EOT<br><br><br><em>yum install epel-release</em><br><br><em>yum install opennebula-server opennebula-sunstone opennebula-ruby opennebula-gate opennebula-flow</em>安装依赖<br><br><em>echo “oneadmin:mypassword” &gt; ~/.one/one_auth</em>设置管理平台帐号密码<br><br><em>systemctl start opennebula</em> <em>systemctl start opennebula-sunstone</em>开启服务<br><br><em>oneuser show</em>验证是否正常安装<br><br><em><a target="_blank" rel="noopener" href="http://ip:9869/">http://ip:9869</a></em>浏览器访问控制面板<br><br><img src="https://cdn.jsdelivr.net/gh/Ricechips/image/image/20200821102640.png"></p>
-</blockquote>
-<h2 id="节点服务器配置"><a href="#节点服务器配置" class="headerlink" title="节点服务器配置"></a>节点服务器配置</h2><blockquote>
-<p>创建虚拟机并配置网络<br><br>打通主控和节点服务器网络，例：<em>ip route add 192.168.106.0/24 via 192.168.106.1 dev ens3</em><br><br>加源并安装依赖<em>yum install opennebula-node-kvm</em> 重启服务<em>systemctl restart libvirtd</em><br><br>禁用SElinux<br><br>配置ssh无密码连接 <em>vim /etc/hosts</em>修改主机名如：<br>192.168.106.201 host <br> 192.168.106.2 node<br><br><br> <em>ssh-keyscan host node  &gt;&gt; /var/lib/one/.ssh/known_hosts</em> <br> * scp /var/lib/one/.ssh/*  root@node:/var/lib/one/.ssh/* <br> 此时主控端ssh node可直接登陆节点</p>
-</blockquote>
-<h2 id="sunstone面板"><a href="#sunstone面板" class="headerlink" title="sunstone面板"></a>sunstone面板</h2><blockquote>
-<p>设置可以切换中文<br><br>基础设施-&gt;主机 添加node节点(kvm类型)<br><br>从opennebula public下载镜像创建虚机进行管理<br><br><img src="https://cdn.jsdelivr.net/gh/Ricechips/image/image/20200821102707.png"></p>
-</blockquote>
+                <h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><h2 id="查找vi内固定行"><a href="#查找vi内固定行" class="headerlink" title="查找vi内固定行"></a>查找vi内固定行</h2><p>ctrl + g 显示行数 <br><br>命令模式   :n   (n)为想要跳转的行数 <br><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/silly-bird/p/10648169.html">系统加载进度条消失之术</a></p>
+<h2 id="静态ip网络配置"><a href="#静态ip网络配置" class="headerlink" title="静态ip网络配置"></a>静态ip网络配置</h2><p>/etc/sysconfig/network-scripts/ 找到网卡</p>
+<pre class=" language-c"><code class="language-c">编辑  dhcp<span class="token operator">-></span><span class="token keyword">static</span> 
+onboot<span class="token operator">=</span>yes
+IPADDR<span class="token operator">=</span>
+GATEWAY<span class="token operator">=</span>
+NETMASK<span class="token operator">=</span>
+DNS1<span class="token operator">=</span>
+service network restart</code></pre>
+<h2 id="qcow2硬盘扩容"><a href="#qcow2硬盘扩容" class="headerlink" title="qcow2硬盘扩容"></a>qcow2硬盘扩容</h2><p>qemu-img info xx.qcow2 <br><br>qemu-img resize xx.qcow2 +3G </p>
+<h2 id="SCP上传文件到服务器"><a href="#SCP上传文件到服务器" class="headerlink" title="SCP上传文件到服务器"></a>SCP上传文件到服务器</h2><p>scp -r /home/ <a href="mailto:root@192.168.xx.xx">root@192.168.xx.xx</a>:/</p>
+<h2 id="查找文件"><a href="#查找文件" class="headerlink" title="查找文件"></a>查找文件</h2><p>find / -name php.ini</p>
+<h2 id="大小写问题"><a href="#大小写问题" class="headerlink" title="大小写问题"></a>大小写问题</h2><p>setleds +caps</p>
+<h2 id="时间同步"><a href="#时间同步" class="headerlink" title="时间同步"></a>时间同步</h2><pre class=" language-c"><code class="language-c">rpm <span class="token operator">-</span>ivh http<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>mirrors<span class="token punctuation">.</span>wlnmp<span class="token punctuation">.</span>com<span class="token operator">/</span>centos<span class="token operator">/</span>wlnmp<span class="token operator">-</span>release<span class="token operator">-</span>centos<span class="token punctuation">.</span>noarch<span class="token punctuation">.</span>rpm
+ntpdate ntp1<span class="token punctuation">.</span>aliyun<span class="token punctuation">.</span>com
+ln <span class="token operator">-</span>sf <span class="token operator">/</span>usr<span class="token operator">/</span>share<span class="token operator">/</span>zoneinfo<span class="token operator">/</span>Asia<span class="token operator">/</span>Shanghai <span class="token operator">/</span>etc<span class="token operator">/</span>localtime</code></pre>
+<h2 id="文件权限-大小-所有者-组"><a href="#文件权限-大小-所有者-组" class="headerlink" title="文件权限 大小 所有者 组"></a>文件权限 大小 所有者 组</h2><p>r:4 w:2 x:1 <br><br>chown 3000000:users /home</p>
+<h2 id="磁盘扩容-不是扩-根目录-扩根的教程太多了"><a href="#磁盘扩容-不是扩-根目录-扩根的教程太多了" class="headerlink" title="磁盘扩容(不是扩/根目录,扩根的教程太多了)"></a>磁盘扩容(不是扩/根目录,扩根的教程太多了)</h2><p>在原有的一个数据盘上进行扩容并保证数据不丢失<br><br>不用pv,vg云云<br></p>
+<pre class=" language-c"><code class="language-c">umount <span class="token operator">/</span>dev<span class="token operator">/</span>sdb1
+parted
+p
+unit s
+p
+rm <span class="token number">1</span>
+mkpart primary ext4 <span class="token number">2048</span> x<span class="token punctuation">.</span>xG
+e2fsck <span class="token operator">-</span>f <span class="token operator">/</span>dev<span class="token operator">/</span>sdb1
+resize2fs <span class="token operator">/</span>dev<span class="token operator">/</span>sdb1
+重新Mount</code></pre>
+<h2 id="Spice"><a href="#Spice" class="headerlink" title="Spice"></a>Spice</h2><p>spice-gtk-tools软件包<br><br>spicy -h 127.0.0.1 -p 5900</p>
+<h2 id="透传USB"><a href="#透传USB" class="headerlink" title="透传USB"></a>透传USB</h2><p>virsh attach-device $domain_name usb.xml</p>
+<pre class=" language-c"><code class="language-c">脚本
+#<span class="token operator">!</span>bin<span class="token operator">/</span>sh
+lsusb <span class="token operator">></span> junk2<span class="token punctuation">.</span>txt
+diff junk<span class="token punctuation">.</span>txt junk2<span class="token punctuation">.</span>txt <span class="token operator">></span> junk3<span class="token punctuation">.</span>txt
+sed <span class="token operator">-</span>n <span class="token string">'4p'</span> junk3<span class="token punctuation">.</span>txt <span class="token operator">|</span> awk <span class="token string">'&amp;#123;print $5&amp;#125;'</span> <span class="token operator">></span> junk4<span class="token punctuation">.</span>txt
+I <span class="token operator">=</span> $<span class="token punctuation">(</span>cat junk4<span class="token punctuation">.</span>txt<span class="token punctuation">)</span> 
+expr substr <span class="token string">"$I"</span> <span class="token number">2</span> <span class="token number">2</span> <span class="token operator">></span> junk5<span class="token punctuation">.</span>txt
+I1 <span class="token operator">=</span> $<span class="token punctuation">(</span>cat junk5<span class="token punctuation">.</span>txt<span class="token punctuation">)</span>
+echo "<span class="token operator">&lt;</span>hostdev mode<span class="token operator">=</span><span class="token string">'subsystem'</span> type<span class="token operator">=</span><span class="token string">'usb'</span> managed<span class="token operator">=</span><span class="token string">'yes'</span><span class="token operator">></span>
+      <span class="token operator">&lt;</span>source<span class="token operator">></span>
+        <span class="token operator">&lt;</span>vendor id<span class="token operator">=</span><span class="token string">'0x15d9'</span><span class="token operator">/</span><span class="token operator">></span>
+        <span class="token operator">&lt;</span>product id<span class="token operator">=</span><span class="token string">'0x0a4e'</span><span class="token operator">/</span><span class="token operator">></span>
+        <span class="token operator">&lt;</span>address bus<span class="token operator">=</span><span class="token string">'2'</span> device<span class="token operator">=</span><span class="token string">'$I1'</span><span class="token operator">/</span><span class="token operator">></span>
+      <span class="token operator">&lt;</span><span class="token operator">/</span>source<span class="token operator">></span>
+      <span class="token operator">&lt;</span><span class="token operator">/</span>hostdev<span class="token operator">></span>"<span class="token operator">></span> device<span class="token punctuation">.</span>xml
+virsh attach<span class="token operator">-</span>device win10<span class="token number">-2</span> device<span class="token punctuation">.</span>xml    </code></pre>
+<p>##<br>/usr 全名為 unix software resource 縮寫，放置系統相關軟體、服務（注意不是 user 的縮寫喔！)<br><br>{n}dd {n}：刪除游標所在的那一行往下數 {n} 行<br><br>watch -n 1 pkill -USR1 -x dd 拷贝u盘进度条<br><br>su (switch user)<br><br>grep -i xhci /boot/config-$(uname -r)<br><br><a target="_blank" rel="noopener" href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/configuring_and_managing_virtualization/index">https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/configuring_and_managing_virtualization/index</a> <br><br><a target="_blank" rel="noopener" href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/virtualization_deployment_and_administration_guide/index">https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/virtualization_deployment_and_administration_guide/index</a> <br><br><a target="_blank" rel="noopener" href="https://lwn.net/Articles/705160/">https://lwn.net/Articles/705160/</a></p>
+<h2 id="win10改时间显示–某些设置隐藏"><a href="#win10改时间显示–某些设置隐藏" class="headerlink" title="win10改时间显示–某些设置隐藏"></a>win10改时间显示–某些设置隐藏</h2><p>去control panel改</p>
+<h2 id="github"><a href="#github" class="headerlink" title="github"></a>github</h2><pre class=" language-c"><code class="language-c"><span class="token macro property">#github</span>
+<span class="token number">192.30</span><span class="token punctuation">.</span><span class="token number">253.113</span> github<span class="token punctuation">.</span>com
+<span class="token number">151.101</span><span class="token punctuation">.</span><span class="token number">185.194</span> github<span class="token punctuation">.</span>global<span class="token punctuation">.</span>ssl<span class="token punctuation">.</span>fastly<span class="token punctuation">.</span>net
+https<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>www<span class="token punctuation">.</span>ipaddress<span class="token punctuation">.</span>com<span class="token operator">/</span>ip<span class="token operator">-</span>lookup
+C<span class="token punctuation">:</span>\Windows\System32\drivers\etc\hosts
+<span class="token operator">/</span>etc<span class="token operator">/</span>hosts</code></pre>
+<h2 id="练练手-sh"><a href="#练练手-sh" class="headerlink" title="练练手.sh"></a>练练手.sh</h2><pre class=" language-c"><code class="language-c">#<span class="token operator">!</span><span class="token operator">/</span>bin<span class="token operator">/</span>bash
+<span class="token keyword">if</span> <span class="token punctuation">[</span> $# <span class="token operator">-</span>ge <span class="token number">1</span> <span class="token punctuation">]</span><span class="token punctuation">;</span>then <span class="token comment" spellcheck="true">//如果传递的参数数量大于或等于1</span>
+        systemctl status $<span class="token number">1</span> <span class="token operator">></span> <span class="token operator">/</span>dev<span class="token operator">/</span>null
+        <span class="token keyword">if</span> <span class="token punctuation">[</span> $<span class="token operator">?</span> <span class="token operator">-</span>eq <span class="token number">0</span> <span class="token punctuation">]</span><span class="token punctuation">;</span>then <span class="token comment" spellcheck="true">//$?是指上一次命令执行的成功或者失败的状态</span>
+                echo <span class="token string">"service is running"</span>
+        <span class="token keyword">else</span>
+                systemctl start $<span class="token number">1</span>
+        fi
+<span class="token keyword">else</span>
+        echo <span class="token string">"执行脚本的格式"</span>
+        echo <span class="token string">"sh $0 服务名"</span>
+fi
+#<span class="token punctuation">.</span><span class="token operator">/</span>status<span class="token punctuation">.</span>sh httpd</code></pre>
+<pre class=" language-c"><code class="language-c">sh <span class="token operator">-</span>xv xxx<span class="token punctuation">.</span>sh <span class="token comment" spellcheck="true">//调试脚本</span>
+#<span class="token operator">!</span><span class="token operator">/</span>bin<span class="token operator">/</span>bash
+i<span class="token operator">=</span><span class="token number">0</span>            
+num2<span class="token operator">=</span>`echo $RANDOM <span class="token operator">|</span> cut <span class="token operator">-</span>c <span class="token number">1</span><span class="token operator">-</span><span class="token number">2</span>`        
+<span class="token keyword">while</span> true     
+<span class="token keyword">do</span>
+    read <span class="token operator">-</span>p <span class="token string">"num:"</span> num1   
+    <span class="token keyword">if</span> <span class="token punctuation">[</span> $<span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>num1<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span> <span class="token operator">-</span>gt $<span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>num2<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span> <span class="token punctuation">]</span><span class="token punctuation">;</span>then     
+        echo <span class="token string">"da"</span>   
+        let i<span class="token operator">++</span>                 
+    elif <span class="token punctuation">[</span> $<span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>num1<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span> <span class="token operator">-</span>lt $<span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>num2<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span> <span class="token punctuation">]</span><span class="token punctuation">;</span>then  
+        echo <span class="token string">"xiao"</span>    
+        let i<span class="token operator">++</span>                
+    <span class="token keyword">else</span>
+        echo <span class="token string">"bingo"</span>   
+        echo <span class="token string">"wrong times:$i"</span>     
+        <span class="token keyword">break</span>                  
+    fi
+done</code></pre>
+<pre class=" language-shell"><code class="language-shell">#!/bin/bash
+echo "The Host Name is:"`hostname`
+echo "The IP ADDR is:"`ifconfig | head -2 | tail -1 | awk '&#123;print $2&#125;'`
+echo "The OS Version is:"`cat /etc/redhat-release`
+echo "The Kernel Version is:"`cat /proc/version | cut -d"(" -f1`
+echo "The CPU Model is:"`lscpu | grep "Model name" | cut -d ":" -f2 | tr -s " "` //以:为分割符号，第二个field; -s 删除所有重复出现字符序列，只保留第一个；即将重复出现字符串压缩为一个字符串
+echo "The Memory Size is:"`free -h | tail -1 | awk '&#123;print $1,$2&#125;'`
+echo "The HD Size is:"`lsblk | grep "disk" | awk '&#123;print $NF,$4&#125;'` //$NF代表 ：最后一个Field(列)</code></pre>
+<h2 id="时间date"><a href="#时间date" class="headerlink" title="时间date"></a>时间date</h2><p>date +”%F %T”<br><br>%F  full date; same as %Y-%m-%d<br><br>%T  time; same as %H:%M:%S<br></p>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
@@ -450,7 +529,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://ricechips.github.io/posts/opennebula/">http://ricechips.github.io/posts/opennebula/</a>
+                    <a href="http://ricechips.github.io/posts/linux/">http://ricechips.github.io/posts/linux/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -531,21 +610,26 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/posts/linux/">
+                <a href="/posts/zabbix/">
                     <div class="card-image">
                         
+                        <img src="https://cdn.jsdelivr.net/gh/Ricechips/image/image/11.jpg" class="responsive-img" alt="Zabbix">
                         
-                        <img src="https://cdn.jsdelivr.net/gh/Ricechips/ricechips.github.io/medias/featureimages/3.jpg" class="responsive-img" alt="Linux">
-                        
-                        <span class="card-title">Linux</span>
+                        <span class="card-title">Zabbix</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Linux查找vi内固定行ctrl + g 显示行数 命令模式   :n   (n)为想要跳转的行数 系统加载进度条消失之术
-静态ip网络配置/etc/sysconfig/network-scripts/ 找到网卡
-编辑  dhcp->st
+                            Zabbix环境
+Zabbix server: Centos7 192.168.106.201被监控端:Win7 192.168.106.3    Centos 192.168.106.2
+
+监控服务端
+脚本
+
+#!/bin/bash
+
+#
                         
                     </div>
                     <div class="publish-info">
@@ -561,6 +645,14 @@
                     </div>
                 </div>
                 
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/zabbix/">
+                        <span class="chip bg-color">zabbix</span>
+                    </a>
+                    
+                </div>
+                
             </div>
         </div>
         
@@ -570,26 +662,21 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/posts/cacti/">
+                <a href="/posts/opennebula/">
                     <div class="card-image">
                         
                         
-                        <img src="https://cdn.jsdelivr.net/gh/Ricechips/ricechips.github.io/medias/featureimages/14.jpg" class="responsive-img" alt="Cacti">
+                        <img src="https://cdn.jsdelivr.net/gh/Ricechips/ricechips.github.io/medias/featureimages/2.jpg" class="responsive-img" alt="Opennebula">
                         
-                        <span class="card-title">Cacti</span>
+                        <span class="card-title">Opennebula</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Cacti
-蛮麻烦的
-
+                            Opennebula网上的资料也太少了吧！
 环境
-服务端:Centos7  被监控端:win7
-
-Cacti服务端搭建
-安装Mysqlrpm -Uvh http://repo.mysql.com/mysql57-community-release-el7.rp
+主控端服务器：Centos7  192.168.106.201 节点服务器（虚拟机）：Centos7  192.168.106.2 虚拟机里面的虚拟机：ttylinux (chop wood
                         
                     </div>
                     <div class="publish-info">

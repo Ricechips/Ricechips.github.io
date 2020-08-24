@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Opennebula, linux|shell|python|kvm">
+    <meta name="keywords" content="一次误删gnome心惊肉跳带着仟悔之心最终恢复了桌面环境的经历, linux|shell|python|kvm">
     <meta name="description" content="一个正在努力成长的linux运维">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Opennebula | 2020努力的胡建人</title>
+    <title>一次误删gnome心惊肉跳带着仟悔之心最终恢复了桌面环境的经历 | 2020努力的胡建人</title>
     <link rel="icon" type="image/jpeg" href="https://cdn.jsdelivr.net/gh/Ricechips/ricechips.github.io/favicon.jpg">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Ricechips/ricechips.github.io/libs/awesome/css/all.css">
@@ -241,12 +241,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/Ricechips/ricechips.github.io/medias/featureimages/2.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/Ricechips/ricechips.github.io/medias/featureimages/9.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Opennebula</h1>
+                    <h1 class="description center-align post-title">一次误删gnome心惊肉跳带着仟悔之心最终恢复了桌面环境的经历</h1>
                 </div>
             </div>
         </div>
@@ -391,21 +391,8 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="Opennebula"><a href="#Opennebula" class="headerlink" title="Opennebula"></a>Opennebula</h1><p>网上的资料也太少了吧！</p>
-<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><blockquote>
-<p>主控端服务器：Centos7  192.168.106.201 <br><br>节点服务器（虚拟机）：Centos7  192.168.106.2 <br><br>虚拟机里面的虚拟机：ttylinux (chop wood,carry water)</p>
-</blockquote>
-<h2 id="主控端配置"><a href="#主控端配置" class="headerlink" title="主控端配置"></a>主控端配置</h2><blockquote>
-<p>第一种方法：脚本安装 <br><br><em>wget ‘<a target="_blank" rel="noopener" href="https://github.com/OpenNebula/minione/releases/latest/download/minione'">https://github.com/OpenNebula/minione/releases/latest/download/minione'</a></em> <br><br><em>bash minione</em><br><br>官方给出的一键安装脚本，因为服务器原因，速度慢</p>
-</blockquote>
-<blockquote>
-<p>第二种方法：正常流程安装<br><br><em>vim /etc/selinux/config</em>将<em>SELINUX=disabled</em>，reboot<br><br>加源<br><br>cat &lt;&lt; “EOT” &gt; /etc/yum.repos.d/opennebula.repo<br><br> [opennebula]<br><br> name=opennebula<br><br> baseurl=<a target="_blank" rel="noopener" href="https://downloads.opennebula.org/repo/5.10/CentOS/7/$basearch">https://downloads.opennebula.org/repo/5.10/CentOS/7/$basearch</a><br><br> enabled=1<br><br> gpgkey=<a target="_blank" rel="noopener" href="https://downloads.opennebula.org/repo/repo.key">https://downloads.opennebula.org/repo/repo.key</a><br><br> gpgcheck=1<br><br> repo_gpgcheck=1<br><br> EOT<br><br><br><em>yum install epel-release</em><br><br><em>yum install opennebula-server opennebula-sunstone opennebula-ruby opennebula-gate opennebula-flow</em>安装依赖<br><br><em>echo “oneadmin:mypassword” &gt; ~/.one/one_auth</em>设置管理平台帐号密码<br><br><em>systemctl start opennebula</em> <em>systemctl start opennebula-sunstone</em>开启服务<br><br><em>oneuser show</em>验证是否正常安装<br><br><em><a target="_blank" rel="noopener" href="http://ip:9869/">http://ip:9869</a></em>浏览器访问控制面板<br><br><img src="https://cdn.jsdelivr.net/gh/Ricechips/image/image/20200821102640.png"></p>
-</blockquote>
-<h2 id="节点服务器配置"><a href="#节点服务器配置" class="headerlink" title="节点服务器配置"></a>节点服务器配置</h2><blockquote>
-<p>创建虚拟机并配置网络<br><br>打通主控和节点服务器网络，例：<em>ip route add 192.168.106.0/24 via 192.168.106.1 dev ens3</em><br><br>加源并安装依赖<em>yum install opennebula-node-kvm</em> 重启服务<em>systemctl restart libvirtd</em><br><br>禁用SElinux<br><br>配置ssh无密码连接 <em>vim /etc/hosts</em>修改主机名如：<br>192.168.106.201 host <br> 192.168.106.2 node<br><br><br> <em>ssh-keyscan host node  &gt;&gt; /var/lib/one/.ssh/known_hosts</em> <br> * scp /var/lib/one/.ssh/*  root@node:/var/lib/one/.ssh/* <br> 此时主控端ssh node可直接登陆节点</p>
-</blockquote>
-<h2 id="sunstone面板"><a href="#sunstone面板" class="headerlink" title="sunstone面板"></a>sunstone面板</h2><blockquote>
-<p>设置可以切换中文<br><br>基础设施-&gt;主机 添加node节点(kvm类型)<br><br>从opennebula public下载镜像创建虚机进行管理<br><br><img src="https://cdn.jsdelivr.net/gh/Ricechips/image/image/20200821102707.png"></p>
+                <h1 id="2020-6-10"><a href="#2020-6-10" class="headerlink" title="2020.6.10"></a>2020.6.10</h1><h2 id="今天杭城的雨很大"><a href="#今天杭城的雨很大" class="headerlink" title="今天杭城的雨很大"></a>今天杭城的雨很大</h2><blockquote>
+<p>配置samba ad时出现瓶颈，想删了软件包重新安装，不料用强制删除时桌面直接卡死（应该是什么依赖失去了），然后重启，怎么init 5 startx都救不回来，急阿！这个系统里还有辛苦搭建的cacti和zabbix呢，一定要恢复才行。<br><br>首先去百度搜“怎么恢复gnome桌面”全tm是无关紧要的教程，然后换成“怎么安装图形界面”，有办法了！首先要联网<br><br>/etc/sysconfig/network-scripts找到网卡并配置好了ip，还是没网???哦，原来是onboot没改成yes，service network restart成功联网<br><br>yum grouplist找到yum groupinstall “GNOME Desktop” “Graphical Administration Tools” 然后startx 好了</p>
 </blockquote>
 <script>
         document.querySelectorAll('.github-emoji')
@@ -450,7 +437,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://ricechips.github.io/posts/opennebula/">http://ricechips.github.io/posts/opennebula/</a>
+                    <a href="http://ricechips.github.io/posts/re-gnome/">http://ricechips.github.io/posts/re-gnome/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -531,26 +518,24 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/posts/linux/">
+                <a href="/posts/blog/">
                     <div class="card-image">
                         
+                        <img src="https://cdn.jsdelivr.net/gh/Ricechips/image/image/20200821104144.png" class="responsive-img" alt="重生之wp+阿里云服务器至hexo+github">
                         
-                        <img src="https://cdn.jsdelivr.net/gh/Ricechips/ricechips.github.io/medias/featureimages/3.jpg" class="responsive-img" alt="Linux">
-                        
-                        <span class="card-title">Linux</span>
+                        <span class="card-title">重生之wp+阿里云服务器至hexo+github</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Linux查找vi内固定行ctrl + g 显示行数 命令模式   :n   (n)为想要跳转的行数 系统加载进度条消失之术
-静态ip网络配置/etc/sysconfig/network-scripts/ 找到网卡
-编辑  dhcp->st
+                            个人博客重生记wordpress+阿里云服务器环境： 服务器:阿里云域名:腾迅云框架:wordpress主题:Sakurassl证书:letsencrypt已备案上图由于在2020.7失去大学生身份(毕业),放弃续费服务器,博客遂卒
+hex
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-08-20
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-08-21
                         </span>
                         <span class="publish-author">
                             
@@ -570,26 +555,22 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/posts/cacti/">
+                <a href="/posts/wsl2/">
                     <div class="card-image">
                         
                         
-                        <img src="https://cdn.jsdelivr.net/gh/Ricechips/ricechips.github.io/medias/featureimages/14.jpg" class="responsive-img" alt="Cacti">
+                        <img src="https://cdn.jsdelivr.net/gh/Ricechips/ricechips.github.io/medias/featureimages/10.jpg" class="responsive-img" alt="wsl2">
                         
-                        <span class="card-title">Cacti</span>
+                        <span class="card-title">wsl2</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Cacti
-蛮麻烦的
+                            wsl2windows terminal + wsl2 + kali + lolcat
 
-环境
-服务端:Centos7  被监控端:win7
-
-Cacti服务端搭建
-安装Mysqlrpm -Uvh http://repo.mysql.com/mysql57-community-release-el7.rp
+        document.querySelectorAll('.github-emoji')
+          .forEach(el =>
                         
                     </div>
                     <div class="publish-info">
