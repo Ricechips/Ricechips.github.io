@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="重生之wp+阿里云服务器至hexo+github, linux|shell|python|kvm">
+    <meta name="keywords" content="Shell脚本大全, linux|shell|python|kvm">
     <meta name="description" content="一个正在努力成长的linux运维">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>重生之wp+阿里云服务器至hexo+github | 2020努力的胡建人</title>
+    <title>Shell脚本大全 | 2020努力的胡建人</title>
     <link rel="icon" type="image/jpeg" href="https://cdn.jsdelivr.net/gh/Ricechips/ricechips.github.io/favicon.jpg">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Ricechips/ricechips.github.io/libs/awesome/css/all.css">
@@ -241,12 +241,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/Ricechips/image/image/20200821104144.png')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://cdn.jsdelivr.net/gh/Ricechips/image/image/$RFRTQOM.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">重生之wp+阿里云服务器至hexo+github</h1>
+                    <h1 class="description center-align post-title">Shell脚本大全</h1>
                 </div>
             </div>
         </div>
@@ -361,21 +361,16 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
-                    
-                </div>
-                <div class="col s5 right-align">
-                    
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                    <div class="article-tag">
                         
-                            <a href="/categories/hexo/" class="post-category">
-                                hexo
+                            <a href="/tags/Shell-Script/">
+                                <span class="chip bg-color">Shell Script</span>
                             </a>
                         
                     </div>
+                    
+                </div>
+                <div class="col s5 right-align">
                     
                 </div>
             </div>
@@ -384,7 +379,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-08-21
+                    2020-08-27
                 </div>
                 
 
@@ -400,9 +395,107 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="个人博客重生记"><a href="#个人博客重生记" class="headerlink" title="个人博客重生记"></a>个人博客重生记</h1><h2 id="wordpress-阿里云服务器"><a href="#wordpress-阿里云服务器" class="headerlink" title="wordpress+阿里云服务器"></a>wordpress+阿里云服务器</h2><p>环境： <br><br>服务器:阿里云<br><br>域名:腾迅云<br><br>框架:wordpress<br><br>主题:Sakura<br><br>ssl证书:letsencrypt<br><br>已备案<br><br>上图<br><img src="https://cdn.jsdelivr.net/gh/Ricechips/image/image/20200821104457.png"><br><img src="https://cdn.jsdelivr.net/gh/Ricechips/image/image/20200821104525.png"><br><img src="https://cdn.jsdelivr.net/gh/Ricechips/image/image/20200821104625.png"><br><br><br>由于在2020.7失去大学生身份(毕业),放弃续费服务器,博客遂卒</p>
-<h2 id="hexo-github"><a href="#hexo-github" class="headerlink" title="hexo+github"></a>hexo+github</h2><p>度过了一个半月没有博客的日子,感觉自己还是失去不了ta,便用另一种形式(免费)搭建博客.<br><br>环境: hexo+github+picgo+cdn.jsdelivr.net<br><br>因为太喜欢高清大图(二次元冲),但是由于图片加载导致网页卡顿,便做了图床的优化,由原先的2min出页面到现在秒出<br><img src="https://cdn.jsdelivr.net/gh/Ricechips/image/image/2d476598fae2be0d78d6d64e8eb536e.png"><br><img src="https://cdn.jsdelivr.net/gh/Ricechips/image/image/1597978670(1).png"> <br><br>希望自己能越来越好,越努力越幸运.</p>
-<script>
+                <h2 id="服务器系统配置初始化"><a href="#服务器系统配置初始化" class="headerlink" title="服务器系统配置初始化"></a>服务器系统配置初始化</h2><pre class=" language-shell"><code class="language-shell">#!/bin/bash
+#设置时区并同步时间
+ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+if ! crontab -l | grep ntpdate &>/dev/null ; then
+    (echo "* 1 * * * ntpdate time.windows.com >/dev/null 2>&1";crontab -l) | crontab
+fi
+
+#禁用selinux
+sed -i '/SELINUX/&#123;s/permissive/disabled/&#125;' /etc/selinux/config
+
+#关闭防火墙
+systemctl stop firewalld
+systemctl disable firewalld
+
+#历史命令显示操作时间
+if ! grep HISTTIMEFORMAT /etc/bashrc; then
+    echo 'export HISTTIMEFORMAT="%F %T `whoami` "' >> /etc/bashrc
+fi
+
+#SSH超时时间
+if ! grep "TMOUT=600" /etc/profile &>/dev/null; then
+    echo "export TMOUT=600" >> /etc/profile
+fi
+
+#禁止root远程登录
+sed -i 's/#PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
+
+禁止定时任务发送邮件
+sed -i 's/^MAILTO=root/MAILTO=""/' /etc/crontab
+
+#设置最大打开文件数
+if ! grep "* soft nofile 65535" /etc/security/limits.conf &>/dev/null; then
+    cat >> /etc/security/limits.conf << EOF
+    * soft nofile 65535
+    * hard nofile 65535
+EOF
+fi
+
+#系统内核优化
+cat >> /etc/sysctl.conf <<EOF
+net.ipv4.tcp_syncookies = 1
+net.ipv4.tcp_max_tw_buckets = 20480
+net.ipv4.tcp_max_syn_backlog =20480
+net.core.netdev_max_backlog = 262144
+net.ipv4.tcp_fin_timeout =20
+EOF
+
+#减少SWAP使用
+echo "0" > /proc/sys/vm/swappiness
+
+#安装系统性能分析工具及其他
+yum install gcc make autoconf vim sysstat net-tools iostat iftop iotp lrzsz -y</code></pre>
+<h2 id="批量创建100个用户并设置密码"><a href="#批量创建100个用户并设置密码" class="headerlink" title="批量创建100个用户并设置密码"></a>批量创建100个用户并设置密码</h2><pre class=" language-shell"><code class="language-shell">#!/bin/bash
+USER_LIST=$@
+USER_FILE=./user.info
+for USER in $USER_LIST; do
+    if ! id $USER &>/dev/null; then
+      PASS=$(echo $RANDOM | md5sum | cut -c 1-8)
+      useradd $USER
+      echo $PASS | passwd --stdin $USER &>/dev/null
+      echo "$USER  $PASS" >> $USER_FILE
+    else
+      echo "$USER User already exists!"
+    fi
+done</code></pre>
+<h2 id="一件查看服务器利用率"><a href="#一件查看服务器利用率" class="headerlink" title="一件查看服务器利用率"></a>一件查看服务器利用率</h2><pre class=" language-shell"><code class="language-shell">#!/bin/bash
+function cpu() &#123;
+  util=$(vmstat |awk '&#123;if(NR==3)print $13+$14&#125;')
+  iowait=$(vmstat |awk '&#123;if(NR==3)print $16&#125;')
+  echo "CPU%: $&#123;util&#125;% , IOwait: $&#123;iowait&#125;%"
+&#125;
+function memory() &#123;
+  total=$(free -m |awk '&#123;if(NR==2)printf "%.1f",$2/1024&#125;')
+  used=$(free -m |awk '&#123;if(NR==2)printf "%.1f",($2-$NF)/1024&#125;')
+  available=$(free -m |awk 'if(NR==2)printf "%.1f",$NF/1024&#125;')
+  echo "Memory: $&#123;total&#125;G , used: $&#123;used&#125;G , available: $&#123;available&#125;G"
+&#125;
+disk() &#123;
+  fs=$(df -h |awk '/^\/dev/&#123;print $1&#125;')
+  for p in $fs; do
+      mounted=$(df -h |awk -v p=$p '$1==p&#123;print $NF&#125;')
+      size=$(df -h |awk -v p=$p '$1==p(print $2&#125;')
+      used=$(df -h |awk -v p=$p '$1==p(print $3&#125;')
+      used_percent=$(df -h |awk -v p=$p '$1==p&#123;print $5&#125;')
+      echo '"mounted: $mounted , size: $size , used: $used , used%: $used_percent"
+  done
+&#125;
+tcp_status()&#123;
+    summary=$(netstat -antp |awk '&#123;a[$6]++&#125;END&#123;for(i in a)printf i";"a[i]" "&#125;')
+    echo "TCP_status - $summary"
+&#125;
+cpu
+memory
+disk
+tcp_status</code></pre>
+<h2 id="找出占用CPU-内存过高的进程"><a href="#找出占用CPU-内存过高的进程" class="headerlink" title="找出占用CPU/内存过高的进程"></a>找出占用CPU/内存过高的进程</h2><pre class=" language-shell"><code class="language-shell">#!/bin/bash
+echo  "------------- cpu top 10 -------------"
+ps -eo pid,pcpu,pmem,args --sort=-pcpu |head -n 10
+echo  "------------- memory top 10 -------------"
+ps -eo pid,pcpu,pmem,args --sort=-pmem |head -n 10</code></pre>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
             if (!el.dataset.src) { return; }
@@ -445,7 +538,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://ricechips.github.io/posts/blog/">http://ricechips.github.io/posts/blog/</a>
+                    <a href="http://ricechips.github.io/posts/bash/">http://ricechips.github.io/posts/bash/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -482,7 +575,11 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/tags/Shell-Script/">
+                                    <span class="chip bg-color">Shell Script</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -522,9 +619,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/posts/bash/">
                     <div class="card-image">
@@ -544,9 +642,9 @@ if ! crontab -l | grep ntpdate &
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-08-27
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-27
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -555,6 +653,7 @@ if ! crontab -l | grep ntpdate &
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -573,30 +672,33 @@ if ! crontab -l | grep ntpdate &
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/posts/re-gnome/">
+                <a href="/posts/blog/">
                     <div class="card-image">
                         
+                        <img src="https://cdn.jsdelivr.net/gh/Ricechips/image/image/20200821104144.png" class="responsive-img" alt="重生之wp+阿里云服务器至hexo+github">
                         
-                        <img src="https://cdn.jsdelivr.net/gh/Ricechips/ricechips.github.io/medias/featureimages/9.jpg" class="responsive-img" alt="一次误删gnome心惊肉跳带着仟悔之心最终恢复了桌面环境的经历">
-                        
-                        <span class="card-title">一次误删gnome心惊肉跳带着仟悔之心最终恢复了桌面环境的经历</span>
+                        <span class="card-title">重生之wp+阿里云服务器至hexo+github</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            2020.6.10今天杭城的雨很大
-配置samba ad时出现瓶颈，想删了软件包重新安装，不料用强制删除时桌面直接卡死（应该是什么依赖失去了），然后重启，怎么init 5 startx都救不回来，急阿！这个系统里还有辛苦搭建的cacti和z
+                            个人博客重生记wordpress+阿里云服务器环境： 服务器:阿里云域名:腾迅云框架:wordpress主题:Sakurassl证书:letsencrypt已备案上图由于在2020.7失去大学生身份(毕业),放弃续费服务器,博客遂卒
+hex
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-20
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-21
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            Ricechips
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/hexo/" class="post-category">
+                                    hexo
+                                </a>
+                            
                             
                         </span>
                     </div>
