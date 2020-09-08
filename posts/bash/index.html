@@ -602,6 +602,28 @@ done</code></pre>
 # 我们可以继续将优化好的内容通过管道传递给 head 命令<span class="token punctuation">,</span>在大量数据中仅显示头 <span class="token number">10</span> 个字节
 # 注意 A 前面有个下划线
 tr <span class="token operator">-</span>dc <span class="token string">'_A‐Za‐z0‐9'</span> <span class="token operator">&lt;</span><span class="token operator">/</span>dev<span class="token operator">/</span>urandom <span class="token operator">|</span> head <span class="token operator">-</span>c <span class="token number">10</span></code></pre>
+<h2 id="计划任务"><a href="#计划任务" class="headerlink" title="计划任务"></a>计划任务</h2><pre class=" language-c"><code class="language-c">#<span class="token operator">!</span><span class="token operator">/</span>bin<span class="token operator">/</span>bash
+# 自动修改计划任务配置文件 
+
+read <span class="token operator">-</span>p <span class="token string">"请输入分钟信息(00‐59):"</span> min
+read <span class="token operator">-</span>p <span class="token string">"请输入小时信息(00‐24):"</span> hour
+read <span class="token operator">-</span>p <span class="token string">"请输入日期信息(01‐31):"</span> date
+read <span class="token operator">-</span>p <span class="token string">"请输入月份信息(01‐12):"</span> month
+read <span class="token operator">-</span>p <span class="token string">"请输入星期信息(00‐06):"</span> weak
+read <span class="token operator">-</span>p <span class="token string">"请输入计划任务需要执行的命令或脚本:"</span> program
+echo <span class="token string">"$min $hour $date $month $weak $program"</span> <span class="token operator">>></span> <span class="token operator">/</span>etc<span class="token operator">/</span>crontab</code></pre>
+<h2 id="信号处理-ctrl-c无法终止的脚本"><a href="#信号处理-ctrl-c无法终止的脚本" class="headerlink" title="信号处理,ctrl+c无法终止的脚本"></a>信号处理,ctrl+c无法终止的脚本</h2><pre class=" language-c"><code class="language-c">#<span class="token operator">!</span><span class="token operator">/</span>bin<span class="token operator">/</span>bash
+<span class="token macro property"># Shell 脚本对信号的处理,执行脚本后,按键盘 Ctrl+C 无法终止的脚本 </span>
+
+# 使用 trap 命令可以拦截用户通过键盘或 kill 命令发送过来的信号
+# 使用 kill ‐l 可以查看 Linux 系统中所有的信号列表<span class="token punctuation">,</span>其中 <span class="token number">2</span> 代表 Ctrl<span class="token operator">+</span>C
+<span class="token macro property"># trap 当发现有用户 ctrl+C 希望终端脚本时,就执行 echo "暂停 10s";sleep 10 这两条命令</span>
+# 另外用户使用命令<span class="token punctuation">:</span><span class="token punctuation">[</span> kill ‐<span class="token number">2</span> 脚本的 PID <span class="token punctuation">]</span> 也可以中断脚本和 Ctrl<span class="token operator">+</span>C 一样的效果<span class="token punctuation">,</span>都会被 trap 拦截
+trap <span class="token string">'echo "暂停 10s";sleep 10'</span> <span class="token number">2</span>
+<span class="token keyword">while</span> <span class="token punctuation">:</span>
+<span class="token keyword">do</span>
+    echo <span class="token string">"go go go"</span>
+done</code></pre>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
