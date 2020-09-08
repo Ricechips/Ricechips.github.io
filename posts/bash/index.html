@@ -396,7 +396,6 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h2 id="fork炸弹"><a href="#fork炸弹" class="headerlink" title="fork炸弹"></a>fork炸弹</h2><pre class=" language-shell"><code class="language-shell">#!/bin/bash
-
 # Shell 脚本的 fork 炸弹 
 
 # 快速消耗计算机资源,致使计算机死机
@@ -467,36 +466,6 @@ for USER in $USER_LIST; do
       echo "$USER User already exists!"
     fi
 done</code></pre>
-<h2 id="一键查看服务器利用率"><a href="#一键查看服务器利用率" class="headerlink" title="一键查看服务器利用率"></a>一键查看服务器利用率</h2><pre class=" language-shell"><code class="language-shell">#!/bin/bash
-function cpu() &#123;
-  util=$(vmstat |awk '&#123;if(NR==3)print $13+$14&#125;')
-  iowait=$(vmstat |awk '&#123;if(NR==3)print $16&#125;')
-  echo "CPU%: $&#123;util&#125;% , IOwait: $&#123;iowait&#125;%"
-&#125;
-function memory() &#123;
-  total=$(free -m |awk '&#123;if(NR==2)printf "%.1f",$2/1024&#125;')
-  used=$(free -m |awk '&#123;if(NR==2)printf "%.1f",($2-$NF)/1024&#125;')
-  available=$(free -m |awk 'if(NR==2)printf "%.1f",$NF/1024&#125;')
-  echo "Memory: $&#123;total&#125;G , used: $&#123;used&#125;G , available: $&#123;available&#125;G"
-&#125;
-disk() &#123;
-  fs=$(df -h |awk '/^\/dev/&#123;print $1&#125;')
-  for p in $fs; do
-      mounted=$(df -h |awk -v p=$p '$1==p&#123;print $NF&#125;')
-      size=$(df -h |awk -v p=$p '$1==p(print $2&#125;')
-      used=$(df -h |awk -v p=$ p '$1==p(print $3&#125;')
-      used_percent=$(df -h |awk -v p=$p '$1==p&#123;print $5&#125;')
-      echo "mounted: $mounted , size: $size , used: $used , used%: $used_percent"
-  done
-&#125;
-tcp_status()&#123;
-    summary=$(netstat -antp |awk '&#123;a[$6]++&#125;END&#123;for(i in a)printf i":"a[i]" "&#125;')
-    echo "TCP_status - $summary"
-&#125;
-cpu
-memory
-disk
-tcp_status</code></pre>
 <h2 id="找出占用CPU-内存过高的进程"><a href="#找出占用CPU-内存过高的进程" class="headerlink" title="找出占用CPU/内存过高的进程"></a>找出占用CPU/内存过高的进程</h2><pre class=" language-shell"><code class="language-shell">#!/bin/bash
 echo  "------------- cpu top 10 -------------"
 ps -eo pid,pcpu,pmem,args --sort=-pcpu |head -n 10
@@ -623,7 +592,6 @@ for DB in $DB_LIST; do
     fi
 done</code></pre>
 <h2 id="生成随机密码"><a href="#生成随机密码" class="headerlink" title="生成随机密码"></a>生成随机密码</h2><pre class=" language-shell"><code class="language-shell">#!/bin/bash
-
 # 生成随机密码(urandom 版本) 
 
 # /dev/urandom 文件是 Linux 内置的随机设备文件
