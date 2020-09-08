@@ -395,12 +395,12 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="fork炸弹"><a href="#fork炸弹" class="headerlink" title="fork炸弹"></a>fork炸弹</h2><pre class=" language-c"><code class="language-c">#<span class="token operator">!</span><span class="token operator">/</span>bin<span class="token operator">/</span>bash
-<span class="token macro property"># Shell 脚本的 fork 炸弹 </span>
+                <h2 id="fork炸弹"><a href="#fork炸弹" class="headerlink" title="fork炸弹"></a>fork炸弹</h2><pre class=" language-shell"><code class="language-shell">#!/bin/bash
+# Shell 脚本的 fork 炸弹 
 
-# 快速消耗计算机资源<span class="token punctuation">,</span>致使计算机死机
-# 定义函数名为<span class="token punctuation">.</span><span class="token punctuation">(</span>点<span class="token punctuation">)</span><span class="token punctuation">,</span> 函数中递归调用自己并放入后台执行
-<span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span> <span class="token punctuation">.</span><span class="token operator">|</span><span class="token punctuation">.</span><span class="token operator">&amp;</span> <span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span><span class="token punctuation">;</span><span class="token punctuation">.</span></code></pre>
+# 快速消耗计算机资源,致使计算机死机
+# 定义函数名为.(点), 函数中递归调用自己并放入后台执行
+.() &#123; .|.& &#125;;.</code></pre>
 <h2 id="服务器系统配置初始化"><a href="#服务器系统配置初始化" class="headerlink" title="服务器系统配置初始化"></a>服务器系统配置初始化</h2><pre class=" language-c"><code class="language-c">#<span class="token operator">!</span><span class="token operator">/</span>bin<span class="token operator">/</span>bash
 #设置时区并同步时间
 ln <span class="token operator">-</span>s <span class="token operator">/</span>usr<span class="token operator">/</span>share<span class="token operator">/</span>zoneinfo<span class="token operator">/</span>Asia<span class="token operator">/</span>Shanghai <span class="token operator">/</span>etc<span class="token operator">/</span>localtime
@@ -769,7 +769,8 @@ tr <span class="token operator">-</span>dc <span class="token string">'_A‐Za�
 
 # 快速消耗计算机资源,致使计算机死机
 # 定义函数名为.(点), 函数中递归调用自己并放入后台执行
-.() &amp;#123; .|.&amp; &amp;
+.() &#123; .|.& &#125;;.
+服务器系
                         
                     </div>
                     <div class="publish-info">
