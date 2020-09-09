@@ -624,6 +624,27 @@ trap <span class="token string">'echo "暂停 10s";sleep 10'</span> <span class=
 <span class="token keyword">do</span>
     echo <span class="token string">"go go go"</span>
 done</code></pre>
+<h2 id="关闭selinux"><a href="#关闭selinux" class="headerlink" title="关闭selinux"></a>关闭selinux</h2><pre class=" language-c"><code class="language-c">#<span class="token operator">!</span><span class="token operator">/</span>bin<span class="token operator">/</span>bash
+
+# 关闭 SELinux 
+sed <span class="token operator">-</span>i  <span class="token string">'/^SELINUX/s/=.*/=disabled/'</span> <span class="token operator">/</span>etc<span class="token operator">/</span>selinux<span class="token operator">/</span>config
+setenforce <span class="token number">0</span></code></pre>
+<h2 id="多进程ping"><a href="#多进程ping" class="headerlink" title="多进程ping"></a>多进程ping</h2><pre class=" language-c"><code class="language-c">#<span class="token operator">!</span><span class="token operator">/</span>bin<span class="token operator">/</span>bash
+
+net<span class="token operator">=</span><span class="token string">"192.168.106"</span>
+<span class="token function">multi_ping_fun</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span>
+    ping <span class="token operator">-</span>c2 <span class="token operator">-</span>i0<span class="token number">.2</span> <span class="token operator">-</span>W1 $<span class="token number">1</span> <span class="token operator">&amp;</span><span class="token operator">></span><span class="token operator">/</span>dev<span class="token operator">/</span>null
+    <span class="token keyword">if</span> <span class="token punctuation">[</span> $<span class="token operator">?</span> <span class="token operator">-</span>eq <span class="token number">0</span> <span class="token punctuation">]</span><span class="token punctuation">;</span>then
+        echo <span class="token string">"$1 is up"</span>
+    <span class="token keyword">else</span>
+        echo <span class="token string">"$1 is down"</span>
+    fi
+<span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+
+<span class="token keyword">for</span> i in <span class="token operator">&amp;</span>#<span class="token number">123</span><span class="token punctuation">;</span><span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token number">254</span><span class="token operator">&amp;</span>#<span class="token number">125</span><span class="token punctuation">;</span>
+<span class="token keyword">do</span>
+    multi_ping_fun $net<span class="token punctuation">.</span>$i <span class="token operator">&amp;</span>
+done</code></pre>
 <script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
