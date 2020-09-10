@@ -485,9 +485,10 @@ URL_LIST<span class="token operator">=</span><span class="token string">"www.bai
         let FAIL_COUNT<span class="token operator">++</span>
       fi
     done
-    <span class="token keyword">if</span> <span class="token punctuation">[</span>$FAIL_COUNT <span class="token operator">-</span>eq <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">;</span> then
+    <span class="token keyword">if</span> <span class="token punctuation">[</span> $FAIL_COUNT <span class="token operator">-</span>eq <span class="token number">3</span> <span class="token punctuation">]</span><span class="token punctuation">;</span> then
       echo <span class="token string">"$URL access failure"</span>
-    fi</code></pre>
+    fi
+done</code></pre>
 <h2 id="LNMP自动部署"><a href="#LNMP自动部署" class="headerlink" title="LNMP自动部署"></a>LNMP自动部署</h2><pre class=" language-c"><code class="language-c">#<span class="token operator">!</span><span class="token operator">/</span>bin<span class="token operator">/</span>bash
 NGINX_V<span class="token operator">=</span><span class="token number">1.19</span><span class="token punctuation">.</span><span class="token number">2</span>
 PHP_V<span class="token operator">=</span><span class="token number">7.3</span><span class="token punctuation">.</span><span class="token number">7</span>
